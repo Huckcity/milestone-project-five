@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Huckcity/milestone-project-five.svg?branch=master)](https://travis-ci.org/Huckcity/milestone-project-five)
+
 
      ,-----.,--.                  ,--. ,---.   ,--.,------.  ,------.
     '  .--./|  | ,---. ,--.,--. ,-|  || o   \  |  ||  .-.  \ |  .---'
