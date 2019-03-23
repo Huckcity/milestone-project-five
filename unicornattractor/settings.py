@@ -11,7 +11,12 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-import env
+
+# Get local environment vars from env.py if possible, otherwise assume we're in deployment and using Heroku vars
+try:
+    import env
+except ImportError:
+    pass
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,7 +31,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["milestone-project-five-huckcity.c9users.io"]
+ALLOWED_HOSTS = ["milestone-project-five-huckcity.c9users.io", "milestone-project-five.herokuapp.com"]
 
 
 # Application definition
