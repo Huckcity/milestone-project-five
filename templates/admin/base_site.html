@@ -1,0 +1,14 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block branding %}
+
+<h1 id="head">
+    <img src="{% static 'images/logo.png' %}" class="logo" />
+    UnicornAttractor</h1>
+
+{% endblock %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'css/admin.css' %}" type="text/css" />
+{% endblock %}
