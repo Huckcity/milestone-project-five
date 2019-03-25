@@ -12,6 +12,19 @@
 .comment-body:hover{
    background-color:#f7f7f7;
 }
+
+.bug-details-item {
+  margin: 20px 0 20px 10px;
+}
+
+.comment-body {
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f7f7f7;
+}
+
 /*** Bootstrap Navbar Color Overwrite ***/
 
 .navbar {
@@ -139,4 +152,22 @@
 .navbar-expand .navbar-nav .show .dropdown-menu .dropdown-item.active {
   color: #fbfcfc;
   background-color: #1b9632;
+}
+
+/****************BOOTSTRAP CARD OVERWRITES************************/
+
+.card {
+  border-radius: 15px;
+}
+
+.card-header {
+  border-radius: 15px 15px 0 0;
+}
+
+.card-header:first-child {
+  border-radius: 15px 15px 0 0;
+}
+
+.card-body > p {
+  margin-bottom: 0;
 }

@@ -79,4 +79,12 @@ def logout(request):
         return redirect('index')
     
 def dashboard(request):
+    
+    # bugs = Ticket.objects.all().filter(type='Bug')
+    
+    # context = {
+    #     'bugs': bugs
+    # }
+    
+    
     return render(request, 'accounts/dashboard.html')

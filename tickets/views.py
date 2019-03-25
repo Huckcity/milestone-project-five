@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 
 from .models import Ticket
@@ -17,16 +17,30 @@ def bugs(request):
     
 def bug(request, bugid):
     
-    bug = get_object_or_404(Ticket, pk=bugid)
-    # user = User.objects.get(id=bug.userid.id)
-    comments = Comment.objects.all().filter(ticketid=bugid)
+    if request.method == "POST":
+        
+        userid = request.user
+        comment = request.POST['comment']
+        ticket = get_object_or_404(Ticket, pk=bugid)
+        
+        comment = Comment(userid = userid, comment=comment, ticketid=ticket)
+        comment.save()
+        
+        messages.success(request, 'Thanks for your comment.')
+        return redirect('/tickets/bug/'+bugid)
+        
+    else:
     
-    context = {
-        'bug': bug,
-        'comments': comments
-    }
-    
-    return render(request, 'tickets/bug.html', context)
+        bug = get_object_or_404(Ticket, pk=bugid)
+        # user = User.objects.get(id=bug.userid.id)
+        comments = Comment.objects.all().filter(ticketid=bugid)
+        
+        context = {
+            'bug': bug,
+            'comments': comments
+        }
+        
+        return render(request, 'tickets/bug.html', context)
     
 def features(request):
     return render(request, 'tickets/features.html')
