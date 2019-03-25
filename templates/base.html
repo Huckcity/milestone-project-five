@@ -8,8 +8,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    
     <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" />
-    <title>{% block title %}{% endblock %}</title>
+    
+    <title>{% block title %}{% endblock %} | UA</title>
 </head>
 <body>
     
@@ -24,6 +27,62 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto">
+      
+      
+      <!-- IF USER AUTHENTICATED -->
+      
+      {% if user.is_authenticated %}
+      
+      <li
+        {% if '/accounts/dashboard' == request.path %}
+          class="nav-item active"
+        {% else %}
+          class="nav-item"
+        {% endif %}
+      >
+        <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+      </li>
+      <li
+        {% if '/tickets/bugs' == request.path %}
+          class="nav-item active"
+        {% else %}
+          class="nav-item"
+        {% endif %}
+      >
+        <a class="nav-link" href="{% url 'bugs' %}">Bugs</a>
+      </li>
+      <li
+        {% if '/tickets/features' == request.path %}
+          class="nav-item active"
+        {% else %}
+          class="nav-item"
+        {% endif %}
+      >
+        <a class="nav-link" href="{% url 'features' %}">Features</a>
+      </li>
+      <li
+        {% if '/accounts/logout' == request.path %}
+          class="nav-item active"
+        {% else %}
+          class="nav-item"
+        {% endif %}
+      >
+        <a class="nav-link" href="javascript:{document.getElementById('logout').submit()}">
+          Log Out
+          <i class="fas fa-sign-out-alt"></i>
+        </a>
+        <form action="{% url 'logout' %}" method="POST" id="logout">
+          {% csrf_token %}
+          <input type="hidden">
+        </form>
+      </li>
+      
+      <!-- END OF AUTHENTICATED NAV-->
+      
+      <!-- IF USER NOT AUTHENTICATED -->
+      
+      {% else %}
+      
       <li
         {% if '/' == request.path %}
           class="nav-item active"
@@ -52,7 +111,7 @@
         <a class="nav-link" href="{% url 'contact' %}">Contact Us</a>
       </li>
       <li
-        {% if '/login' == request.path %}
+        {% if '/accounts/login' == request.path %}
           class="nav-item active"
         {% else %}
           class="nav-item"
@@ -60,9 +119,19 @@
       >
         <a class="nav-link" href="{% url 'login' %}">Log In</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/admin" target="_blank">Admin</a>
+      <li
+        {% if '/accounts/register' == request.path %}
+          class="nav-item active"
+        {% else %}
+          class="nav-item"
+        {% endif %}
+      >
+        <a class="nav-link" href="{% url 'register' %}">Register</a>
       </li>
+      
+      {% endif %}
+      
+      <!-- END OF NOT AUTHENTICATED NAV-->
     </ul>
   </div>
 </nav>

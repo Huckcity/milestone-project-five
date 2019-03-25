@@ -1,15 +1,51 @@
-<h1>BUGS</h1>
+{% extends 'base.html' %}
 
-{% if tickets %}
+{% block title %}Bugs{% endblock %}
 
-<div class="col-md-12">
-    
-    {% for ticket in tickets %}
-    
-        <p>{{ ticket.title }}</p>
-    
-    {% endfor %}
-    
+{% block content %}
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Bug Reports</h1>
+
+        {% include 'partials/_alerts.html' %}
+        
+        <table class="table table-hover table-responsive-sm">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+            </tr>
+        </thead>
+        <tbody>
+        
+        {% if bugs %}
+        
+            {% for bug in bugs %}
+            
+                <tr>
+                    <th scope="row">{{ bug.id }}</th>
+                    <td>{{ bug.title }}</td>
+                    <td>{{ bug.description | truncatechars:40 }}</td>
+                    <td><a href="{% url 'bug' bug.id %}">View</a></td>
+                </tr>
+            
+            {% endfor %}
+            
+        {% else %}
+        
+            <tr>
+                <td>No bugs found.</td>
+            </tr>
+        
+        {% endif %}
+        
+        </tbody>
+    </table>
+
+    </div>
 </div>
 
-{% endif %}
+{% endblock %}

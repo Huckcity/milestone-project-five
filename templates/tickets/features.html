@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Features{% endblock %}
+
+{% block content %}
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Feature Requests</h1>
+
+        {% include 'partials/_alerts.html' %}
+        
+        {% if tickets %}
+
+        <div class="col-md-12">
+            
+            {% for ticket in tickets %}
+            
+                <p>{{ ticket.title }}</p>
+            
+            {% endfor %}
+            
+        </div>
+        
+        {% endif %}
+
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Bugs{% endblock %}
+
+{% block content %}
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4"></h1>
+
+        {% include 'partials/_alerts.html' %}
+
+        
+        {% if bug %}
+        
+            <div class="card">
+                <!--<h5 class="card-header">BugID #{{ bug.id }}</h5>-->
+                <h5 class="card-header">
+                    <a href="{% url 'bugs' %}">Bugs</a>
+                    <span class="text-muted"> / </span>
+                    {{ bug.title }}
+                    <small class="text-muted"> posted on {{ bug.created_on }} by {{ bug.userid.username }}</small>
+                </h5>
+                <div class="card-body">
+                    
+                    
+                    <h5 class="card-title">Details</h5>
+                    <p class="card-text">{{ bug.description }}</p>
+                    
+                    <h5 class="card-title">URL</h5>
+                    <p class="card-text">{{ bug.url }}</p>
+                    
+                    <h5 class="card-title">Status</h5>
+                    <p class="card-text">{{ bug.status }}</p>
+                    
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+            
+            {% if comments %}
+            
+            <hr>
+            
+            <div class="card">
+                <h5 class="card-header">Comments</h5>
+            
+                <div class="comment-body">
+                
+                {% for comment in comments %}
+                
+                    <div class="card-body">
+                        <small class="text-muted">On the {{ bug.created_on }}, {{ comment.userid.username }} said:</small>
+                        <p>
+                            {{ comment }}
+                        </p>
+                    </div>
+                
+                {% endfor %}
+            
+                </div>
+            
+            </div>
+            
+            {% endif %}
+            
+            
+        {% else %}
+        
+            <tr>
+                <td>No bugs found.</td>
+            </tr>
+        
+        {% endif %}
+        
+    </div>
+</div>
+
+{% endblock %}
