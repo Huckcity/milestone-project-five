@@ -1,0 +1,15 @@
+<h1>BUGS</h1>
+
+{% if tickets %}
+
+<div class="col-md-12">
+    
+    {% for ticket in tickets %}
+    
+        <p>{{ ticket.title }}</p>
+    
+    {% endfor %}
+    
+</div>
+
+{% endif %}
