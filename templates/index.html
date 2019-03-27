@@ -3,14 +3,34 @@
 {% block title %}Unicorn Attractor{% endblock %}
 
 {% block content %}
+    
+{% include 'partials/_alerts.html' %}
 
-<div class="jumbotron jumbotron-fluid">
-  <div class="container">
-    <h1 class="display-4">Home page</h1>
+<div class="jumbotron">
+  <div class="text-center col-md-8 offset-md-2">
+    <h2 class="display-4">Welcome to the web you never knew you wanted</h2>
     
-    {% include 'partials/_alerts.html' %}
+    <hr>
+      
+    <div class="row">
+      <div class="col-sm home-panel">
+        <h4><strong>You</strong> own your data</h4>
+        <img src="http://www.piedpiper.com/app/themes/pied-piper/dist/images/icon-data.png">
+        <p>Hidden from the Hoolis™ of the world</p>
+      </div>
+      <div class="col-sm home-panel">
+        <h4><strong>You</strong> control your identity</h4>
+        <img src="http://www.piedpiper.com/app/themes/pied-piper/dist/images/icon-identity.png">
+        <p>Decide what private information is made public</p>
+      </div>
+      <div class="col-sm home-panel">
+        <h4><strong>You</strong> have the power</h4>
+        <img src="http://www.piedpiper.com/app/themes/pied-piper/dist/images/icon-power.png">
+        <p>With decentralized apps and storage to make the internet the fastest it can be</p>
+      </div>
+    </div>
     
-    <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+    <hr>
   </div>
 </div>
 

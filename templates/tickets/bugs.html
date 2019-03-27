@@ -4,12 +4,20 @@
 
 {% block content %}
 
-<div class="jumbotron jumbotron-fluid">
-    <div class="container">
-        <h1 class="display-4">Bug Reports</h1>
-
-        {% include 'partials/_alerts.html' %}
+<div class="container">
+    
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li class="breadcrumb-item">Bugs</li>
+        </ol>
+    </nav>
         
+    <h1 class="display-4">Bug Reports</h1>
+
+    {% include 'partials/_alerts.html' %}
+    
+    <div class="main-container">
         <table class="table table-hover table-responsive-sm">
         <thead>
             <tr>
@@ -43,8 +51,7 @@
         {% endif %}
         
         </tbody>
-    </table>
-
+        </table>
     </div>
 </div>
 

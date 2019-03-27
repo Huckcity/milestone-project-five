@@ -4,98 +4,103 @@
 
 {% block content %}
 
-<div class="jumbotron jumbotron-fluid">
-    <div class="container">
-        <h1 class="display-4"></h1>
+<div class="container">
+    
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'bugs' %}">Bugs</a></li>
+            <li class="breadcrumb-item">{{ bug.title }}</li>
+        </ol>
+    </nav>
+    
+    <h1 class="display-4"></h1>
 
-        {% include 'partials/_alerts.html' %}
+    {% include 'partials/_alerts.html' %}
 
-        
-        {% if bug %}
-        
-            <div class="card">
-                <!--<h5 class="card-header">BugID #{{ bug.id }}</h5>-->
-                <h5 class="card-header">
-                    <a href="{% url 'bugs' %}">Bugs</a>
-                    <span class="text-muted"> / </span>
-                    {{ bug.title }}
-                    <small class="text-muted"> posted on {{ bug.created_on }} by {{ bug.userid.username }}</small>
-                </h5>
-                <div class="card-body">
-                    
-                    <div class="bug-details-item">
-                        <h5 class="card-title">Details</h5>
-                        <p class="details-body">{{ bug.description }}</p>
-                    </div>
-                    
-                    <div class="bug-details-item">
-                        <h6 class="card-title">URL:
-                            <span class="card-text">
-                                {% if bug.url %}
-                                    <a href="{{ bug.url }}" target="_blank">{{ bug.url }}</a>
-                                {% else %}
-                                    None
-                                {% endif %}
-                            </span>
-                        </h6>
-                    </div>
-                    
-                    <div class="bug-details-item">
-                        <h6 class="card-title">Status
-                        
-                            {% if bug.status == "Pending" %}
-                                <span class="badge badge-primary">{{ bug.status }}</span>
-                            {% elif bug.status == "In Progress" %}
-                                <span class="badge badge-warning">{{ bug.status }}</span>
-                            {% elif bug.status == "Complete" %}
-                                <span class="badge badge-success">{{ bug.status }}</span>
+    
+    {% if bug %}
+    
+        <div class="card">
+            <!--<h5 class="card-header">BugID #{{ bug.id }}</h5>-->
+            <h5 class="card-header">
+                {{ bug.title }}
+                <small class="text-muted"> posted on {{ bug.created_on }} by {{ bug.userid.username }}</small>
+            </h5>
+            <div class="card-body">
+                
+                <div class="bug-details-item">
+                    <h5 class="card-title">Details</h5>
+                    <p class="details-body">{{ bug.description }}</p>
+                </div>
+                
+                <div class="bug-details-item">
+                    <h6 class="card-title">URL:
+                        <span class="card-text">
+                            {% if bug.url %}
+                                <a href="{{ bug.url }}" target="_blank">{{ bug.url }}</a>
+                            {% else %}
+                                None
                             {% endif %}
-                        
-                        </h6>
-                    </div>
+                        </span>
+                    </h6>
+                </div>
+                
+                <div class="bug-details-item">
+                    <h6 class="card-title">Status
                     
-                </div>
-            </div>
-            
-            {% if comments %}
-            
-            <hr>
-            
-            <div class="card">
-                <h5 class="card-header">Comments
-                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Add Comment</button>
-                </h5>
-                
-            
-                {% for comment in comments %}
-                
-                    <div class="comment-body">
-                        <div class="card-body">
-                            <small class="text-muted">On {{ bug.created_on }}, <b>{{ comment.userid.username }}</b> said:</small>
-                            <p>
-                                {{ comment }}
-                            </p>
-                        </div>
-                    </div>
-                
-                {% endfor %}
-                
+                        {% if bug.status == "Pending" %}
+                            <span class="badge badge-primary">{{ bug.status }}</span>
+                        {% elif bug.status == "In Progress" %}
+                            <span class="badge badge-warning">{{ bug.status }}</span>
+                        {% elif bug.status == "Complete" %}
+                            <span class="badge badge-success">{{ bug.status }}</span>
+                        {% endif %}
+                    
+                    </h6>
                 </div>
                 
             </div>
-            
-            {% endif %}
-            
-            
-        {% else %}
+        </div>
         
-            <tr>
-                <td>No bugs found.</td>
-            </tr>
+        {% if comments %}
+        
+        <hr>
+        
+        <div class="card">
+            <h5 class="card-header">Comments
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Add Comment</button>
+            </h5>
+            
+        
+            {% for comment in comments %}
+            
+                <div class="comment-body">
+                    <div class="card-body">
+                        <small class="text-muted">On {{ bug.created_on }}, <b>{{ comment.userid.username }}</b> said:</small>
+                        <p>
+                            {{ comment }}
+                        </p>
+                    </div>
+                </div>
+            
+            {% endfor %}
+            
+            </div>
+            
+        </div>
         
         {% endif %}
         
-    </div>
+        
+    {% else %}
+    
+        <tr>
+            <td>No bugs found.</td>
+        </tr>
+    
+    {% endif %}
+    
 </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
