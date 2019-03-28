@@ -52,12 +52,15 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    ### Whitenoise
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'unicornattractor.urls'
@@ -144,15 +147,15 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
-# STATIC_ROOT= os.path.join(BASE_DIR, 'static')
-# STATIC_URL = '/static/'
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, 'unicornattractor/static'),
-#     )
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
     
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+
+
+
+### Settings for using Django's built in messages functionality
 
 from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
@@ -160,6 +163,10 @@ MESSAGE_TAGS = {
 }
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+
+
+### Email config, using Sendgrid as development example
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
