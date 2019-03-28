@@ -8,11 +8,8 @@ body {
   flex-direction: column;
 }
 
-.content {
+.content-main {
   flex: 1;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  height: 100%;
 }
 
 .logo {
@@ -58,11 +55,6 @@ body {
 .home-panel p {
   padding: 10px;
   font-size: 0.9em;
-}
-
-footer {
-  color: #fff;
-  margin-bottom: 0;
 }
 
 /****************BOOTSTRAP CARD OVERWRITES************************/
