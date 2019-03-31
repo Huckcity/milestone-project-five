@@ -95,6 +95,12 @@
   margin-bottom: 0;
 }
 
+/********** OTHER BOOTSTRAP OVERWRITES **************/
+
+.badge {
+  padding: .45em .5em;
+}
+
 @media screen and (max-width: 600px) {
   h1, h2, h3, h4, h5, h6 {
     font-size: 5vw;

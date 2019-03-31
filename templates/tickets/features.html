@@ -4,28 +4,58 @@
 
 {% block content %}
 
-<div class="jumbotron jumbotron-fluid">
-    <div class="container">
-        <h1 class="display-4">Feature Requests</h1>
-
-        {% include 'partials/_alerts.html' %}
+<div class="container">
+    
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li class="breadcrumb-item">Features</li>
+        </ol>
+    </nav>
         
-        {% if tickets %}
+    <h1 class="display-4">Features</h1>
 
-        <div class="col-md-12">
+    {% include 'partials/_alerts.html' %}
+    
+    <div class="main-container">
+        <table class="table table-hover table-responsive-sm">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+            </tr>
+        </thead>
+        <tbody>
+        
+        {% if features %}
+        
+            {% for feature in features %}
             
-            {% for ticket in tickets %}
-            
-                <p>{{ ticket.title }}</p>
+                <tr>
+                    <th scope="row">{{ feature.id }}</th>
+                    <td>{{ feature.title }}</td>
+                    <td>{{ feature.description | truncatechars:40 }}</td>
+                    <td><a href="{% url 'feature' feature.id %}">View</a></td>
+                </tr>
             
             {% endfor %}
             
-        </div>
+        {% else %}
+        
+            <tr>
+                <td>No featues found.</td>
+            </tr>
         
         {% endif %}
-
-
+        
+        </tbody>
+        </table>
     </div>
+    
+    <a href="{% url 'addfeature' %}" class="btn btn-info float-right">Request Feature</a>
+    
 </div>
 
 {% endblock %}

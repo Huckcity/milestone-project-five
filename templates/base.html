@@ -54,12 +54,24 @@
               Bugs
             </a>
           </li>
-          <li {% if '/tickets/features' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
+          <li {% if '/tickets/features' == request.path or '/tickets/feature/' in request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
             <a class="nav-link" href="{% url 'features' %}">
               <i class="fas fa-award"></i>
               Features
             </a>
           </li>
+
+          {% if user.is_staff %}
+
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'admin:index' %}" target="_blank">
+                <i class="fas fa-award"></i>
+                Admin
+              </a>
+            </li>
+
+          {% endif %}
+
           <li {% if '/accounts/logout' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
             <a class="nav-link" href="javascript:{document.getElementById('logout').submit()}">
               Log Out

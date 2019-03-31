@@ -1,11 +1,24 @@
+"""
+Register ticketing modules within admin panel
+"""
 from django.contrib import admin
 
-from .models import Ticket
+from .models import Ticket, Contribution
 
 class TicketAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'created_on', 'type', 'status')
+    """
+    Register tickets within admin panel
+    """
+    list_display = ('id', 'title', 'userid', 'created_on', 'type', 'status')
     list_display_links = ('id', 'title')
     list_filter = ('status', 'type')
     list_per_page = 20
 
+class ContribAdmin(admin.ModelAdmin):
+    """
+    Register contributions within admin panel
+    """
+    list_display = ('id', 'userid', 'contributed_on')
+
 admin.site.register(Ticket, TicketAdmin)
+admin.site.register(Contribution, ContribAdmin)

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Bugs{% endblock %}
+{% block title %}Feature Request{% endblock %}
 
 {% block content %}
 
@@ -9,8 +9,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'dashboard' %}">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'bugs' %}">Bugs</a></li>
-            <li class="breadcrumb-item">{{ bug.title }}</li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'features' %}">Features</a></li>
+            <li class="breadcrumb-item">{{ feature.title }}</li>
         </ol>
     </nav>
     
@@ -19,26 +19,26 @@
     {% include 'partials/_alerts.html' %}
 
     
-    {% if bug %}
+    {% if feature %}
     
         <div class="card">
-            <!--<h5 class="card-header">BugID #{{ bug.id }}</h5>-->
+            
             <h5 class="card-header">
-                {{ bug.title }}
-                <small class="text-muted"> posted on {{ bug.created_on }} by {{ bug.userid.username }}</small>
+                {{ feature.title }}
+                <small class="text-muted"> posted on {{ feature.created_on }} by {{ feature.userid.username }}</small>
             </h5>
             <div class="card-body">
                 
                 <div class="bug-details-item">
                     <h5 class="card-title">Details</h5>
-                    <p class="details-body">{{ bug.description }}</p>
+                    <p class="details-body">{{ feature.description }}</p>
                 </div>
                 
                 <div class="bug-details-item">
                     <h6 class="card-title">URL:
                         <span class="card-text">
-                            {% if bug.url %}
-                                <a href="{{ bug.url }}" target="_blank">{{ bug.url }}</a>
+                            {% if feature.url %}
+                                <a href="{{ feature.url }}" target="_blank">{{ feature.url }}</a>
                             {% else %}
                                 None
                             {% endif %}
@@ -49,34 +49,56 @@
                 <div class="bug-details-item">
                     <h6 class="card-title">Status
                     
-                        {% if bug.status == "Pending" %}
-                            <span class="badge badge-primary">{{ bug.status }}</span>
-                        {% elif bug.status == "In Progress" %}
-                            <span class="badge badge-warning">{{ bug.status }}</span>
-                        {% elif bug.status == "Complete" %}
-                            <span class="badge badge-success">{{ bug.status }}</span>
+                        {% if feature.status == "Pending" %}
+                            <span class="badge badge-primary">{{ feature.status }}</span>
+                        {% elif feature.status == "In Progress" %}
+                            <span class="badge badge-warning">{{ feature.status }}</span>
+                        {% elif feature.status == "Complete" %}
+                            <span class="badge badge-success">{{ feature.status }}</span>
                         {% endif %}
                     
                     </h6>
                 </div>
+
+                <div class="bug-details-item">
+                    <h6 class="card-title">Development Cost
+                    &euro;{{ feature.price }}
+                    </h6>
+                </div>
+
+                <div class="bug-details-item">
+                    <div class="progress"  style="height: 25px">
+                        <div class="progress-bar progress-bar-striped" 
+                             role="progressbar" 
+                             style="width: {{ contributions.contrib_percent|stringformat:'d' }}%; height: 25px" 
+                             aria-valuenow="{{ contributions.contrib_percent|stringformat:'d' }}" 
+                             aria-valuemin="0" 
+                             aria-valuemax="{{ feature.price|stringformat:'d' }}">
+                             <strong>&euro;{{ contributions.current_contribs }} - {{ contributions.contrib_percent }}%</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <form>
+                    <button class="btn btn-info float-right">Contribute</button>
+                </form>
                 
             </div>
         </div>
         
-        <hr>
-        
+
         <div class="card">
             <h5 class="card-header">Comments
             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Add Comment</button>
             </h5>
-        
-            {% if comments %}
-
-                {% for comment in comments %}
             
+            {% if comments %}
+        
+                {% for comment in comments %}
+                
                     <div class="comment-body">
                         <div class="card-body">
-                            <small class="text-muted">On {{ bug.created_on }}, <b>{{ comment.userid.username }}</b> said:</small>
+                            <small class="text-muted">On {{ comment.posted_on }}, <b>{{ comment.userid.username }}</b> said:</small>
                             <p>
                                 {{ comment }}
                             </p>
@@ -84,16 +106,18 @@
                     </div>
                 
                 {% endfor %}
-
+            
             {% else %}
-
+    
                 <div class="comment-body text-center">No comments found</div>
             
             {% endif %}
             
+            </div>
+            
         </div>
         
-    {% endif %}
+        {% endif %}
     
 </div>
 
@@ -107,7 +131,7 @@
         </button>
             </div>
             <div class="modal-body">
-                <form action="{% url 'bug' bug.id %}" method="POST">
+                <form action="{% url 'feature' feature.id %}" method="POST">
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="comment" class="col-form-label">Message:</label>

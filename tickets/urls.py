@@ -1,11 +1,16 @@
+"""
+URLS for Tickets App
+"""
+
 from django.conf.urls import url
 
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.bugs, name='bugs'),
     url(r'^bugs$', views.bugs, name='bugs'),
     url(r'^bug/(?P<bugid>\d+)/$', views.bug, name='bug'),
-    url(r'^features', views.features, name='features'),
-    url(r'^addticket', views.addticket, name='addticket'),
+    url(r'^features$', views.features, name='features'),
+    url(r'^feature/(?P<featureid>\d+)/$', views.feature, name='feature'),
+    url(r'^addbug', views.addbug, name='addbug'),
+    url(r'^addfeature', views.addfeature, name='addfeature'),
     ]
