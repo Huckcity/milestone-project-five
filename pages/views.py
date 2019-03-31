@@ -8,7 +8,10 @@ from django.core.mail import send_mail, BadHeaderError
 
 
 def index(request):
-    return render(request, 'index.html')
+    
+    form = ContactForm()
+    
+    return render(request, "index.html", {'form': form})
     
 def about(request):
     return render(request, 'about.html')
@@ -28,13 +31,11 @@ def contact(request):
                 messages.success(request, 'Thanks for your enquiry, we\'ll get back to you soon!')
             except BadHeaderError:
                 messages.error(request, 'Thanks for your enquiry!')
-            return redirect('contact')
+            return redirect('index')
             
     else:
-    
-        form = ContactForm()
             
-    return render(request, "contact.html", {'form': form})
+        return redirect('index')
 
     
 def login(request):

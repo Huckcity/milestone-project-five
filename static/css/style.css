@@ -1,6 +1,3 @@
-body {
-  margin: 0;
-}
 
 .page-container {
   display: flex;
@@ -18,6 +15,7 @@ body {
 .logo {
   width: 60px;
 }
+
 
 .comment-body {
   padding: 10px;
@@ -60,9 +58,18 @@ body {
   font-size: 0.9em;
 }
 
-footer {
+.footer {
+  padding: 20px 50px;
   color: #fff;
-  margin-bottom: 0;
+  background-color: #7fb800;
+}
+
+.footer a {
+  color: #fff;
+}
+
+.footer ul {
+  list-style-type: none;
 }
 
 /****************BOOTSTRAP CARD OVERWRITES************************/
@@ -86,4 +93,10 @@ footer {
 
 .card-body > p {
   margin-bottom: 0;
+}
+
+@media screen and (max-width: 600px) {
+  h1, h2, h3, h4, h5, h6 {
+    font-size: 5vw;
+  }
 }

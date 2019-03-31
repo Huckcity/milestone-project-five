@@ -21,93 +21,90 @@
     
 <div class="page-container">
   
-  
-  <nav class="navbar navbar-expand-lg navbar-dark bg-green">
+  <div class="header-container">
     
-    <a class="navbar-brand" href="#">
-        <img src="{% static 'images/logo.png' %}" class="logo"></img>
-        <a href="#" class="navbar-brand">Unicorn Attractor</a>
-    </a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-green">
+      
+      <a class="navbar-brand" href="#">
+          <img src="{% static 'images/logo.png' %}" class="logo"></img>
+          <a href="#" class="navbar-brand">Unicorn Attractor</a>
+      </a>
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
     
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-  
-      <!-- IF USER AUTHENTICATED -->
-  
-      {% if user.is_authenticated %}
-  
-      <ul class="navbar-nav mr-auto">
-  
-        <li {% if '/accounts/dashboard' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
-          <a class="nav-link" href="{% url 'dashboard' %}">
-            <i class="fas fa-home"></i>
-            Dashboard
-          </a>
-        </li>
-        <li {% if '/tickets/bugs' == request.path or '/tickets/bug/' in request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
-          <a class="nav-link" href="{% url 'bugs' %}">
-            <i class="fas fa-bug"></i>
-            Bugs
-          </a>
-        </li>
-        <li {% if '/tickets/features' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
-          <a class="nav-link" href="{% url 'features' %}">
-            <i class="fas fa-award"></i>
-            Features
-          </a>
-        </li>
-        <li {% if '/accounts/logout' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
-          <a class="nav-link" href="javascript:{document.getElementById('logout').submit()}">
-            Log Out
-            <i class="fas fa-sign-out-alt"></i>
-          </a>
-          <form action="{% url 'logout' %}" method="POST" id="logout">
-            {% csrf_token %}
-            <input type="hidden">
-          </form>
-        </li>
-  
-      </ul>
-  
-      <form class="form-inline ml-auto">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-info" type="submit">Search</button>
-      </form>
-      <!-- END OF AUTHENTICATED NAV-->
-  
-      <!-- IF USER NOT AUTHENTICATED -->
-  
-      {% else %}
-  
-      <ul class="navbar-nav ml-auto">
-  
-        <li {% if '/' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
-          <a class="nav-link" href="{% url 'index' %}">Home</a>
-        </li>
-        <li {% if '/about' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
-          <a class="nav-link" href="{% url 'about' %}">About</a>
-        </li>
-        <li {% if '/contact' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
-          <a class="nav-link" href="{% url 'contact' %}">Contact Us</a>
-        </li>
-        <li {% if '/accounts/login' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
-          <a class="nav-link" href="{% url 'login' %}">Log In</a>
-        </li>
-        <li {% if '/accounts/register' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
-          <a class="nav-link" href="{% url 'register' %}">Register</a>
-        </li>
-  
-      </ul>
-  
-      {% endif %}
-  
-      <!-- END OF NOT AUTHENTICATED NAV-->
-  
-    </div>
-  </nav>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    
+        <!-- IF USER AUTHENTICATED -->
+    
+        {% if user.is_authenticated %}
+    
+        <ul class="navbar-nav mr-auto">
+    
+          <li {% if '/accounts/dashboard' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
+            <a class="nav-link" href="{% url 'dashboard' %}">
+              <i class="fas fa-home"></i>
+              Dashboard
+            </a>
+          </li>
+          <li {% if '/tickets/bugs' == request.path or '/tickets/bug/' in request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
+            <a class="nav-link" href="{% url 'bugs' %}">
+              <i class="fas fa-bug"></i>
+              Bugs
+            </a>
+          </li>
+          <li {% if '/tickets/features' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
+            <a class="nav-link" href="{% url 'features' %}">
+              <i class="fas fa-award"></i>
+              Features
+            </a>
+          </li>
+          <li {% if '/accounts/logout' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
+            <a class="nav-link" href="javascript:{document.getElementById('logout').submit()}">
+              Log Out
+              <i class="fas fa-sign-out-alt"></i>
+            </a>
+            <form action="{% url 'logout' %}" method="POST" id="logout">
+              {% csrf_token %}
+              <input type="hidden">
+            </form>
+          </li>
+    
+        </ul>
+    
+        <form class="form-inline ml-auto">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-info" type="submit">Search</button>
+        </form>
+        <!-- END OF AUTHENTICATED NAV-->
+    
+        <!-- IF USER NOT AUTHENTICATED -->
+    
+        {% else %}
+    
+        <ul class="navbar-nav ml-auto">
+    
+          <li {% if '/' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
+            <a class="nav-link" href="{% url 'index' %}">Home</a>
+          </li>
+          <li {% if '/accounts/login' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
+            <a class="nav-link" href="{% url 'login' %}">Log In</a>
+          </li>
+          <li {% if '/accounts/register' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
+            <a class="nav-link" href="{% url 'register' %}">Register</a>
+          </li>
+    
+        </ul>
+    
+        {% endif %}
+    
+        <!-- END OF NOT AUTHENTICATED NAV-->
+    
+      </div>
+    </nav>
+    
+  </div>
     
   <div class="content">
       {% block content %}
@@ -115,14 +112,35 @@
   </div>
 
     
-  <footer class="navbar navbar-expand-lg navbar-dark bg-green">
-    <ul>
-      <li class="nav-item">Link One</li>
-      <li class="nav-item">Link Two</li>
-      <li class="nav-item">Link Three</li>
-      <li class="nav-item">Link Four</li>
-    </ul>
-  </footer>
+  <!--<footer class="navbar navbar-expand-lg navbar-dark bg-green">-->
+    <div class="container-fluid footer">
+      <div class="row">
+        <div class="col-4">
+          <h3 class="display-5">Unicorn Attractor</h3>
+          <p><i>Helping to make the internet a better place.</i></p>
+        </div>
+        <div class="col-4">
+          <small>Also stop Article 13. #SaveOurMemes</small>
+        </div>
+        <div class="col-4">
+          <ul>
+            <li class="nav-item">
+              <a href="">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="">Login</a>
+            </li>
+            <li class="nav-item">
+              <a href="">Register</a>
+            </li>
+            <li class="nav-item">
+              <a href="">Dashboard</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <!--</footer>-->
     
     
 </div>

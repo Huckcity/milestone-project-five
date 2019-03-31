@@ -8,24 +8,24 @@
 
 <div class="jumbotron">
   <div class="text-center col-md-8 offset-md-2">
-    <h2 class="display-4">Welcome to the web you never knew you wanted</h2>
+    <h1>Welcome to the web you never knew you wanted</h1>
     
     <hr>
       
     <div class="row">
       <div class="col-sm home-panel">
         <h4><strong>You</strong> own your data</h4>
-        <img src="http://www.piedpiper.com/app/themes/pied-piper/dist/images/icon-data.png">
+        <img class="img-fluid" src="http://www.piedpiper.com/app/themes/pied-piper/dist/images/icon-data.png">
         <p>Hidden from the Hoolis™ of the world</p>
       </div>
       <div class="col-sm home-panel">
         <h4><strong>You</strong> control your identity</h4>
-        <img src="http://www.piedpiper.com/app/themes/pied-piper/dist/images/icon-identity.png">
+        <img class="img-fluid" src="http://www.piedpiper.com/app/themes/pied-piper/dist/images/icon-identity.png">
         <p>Decide what private information is made public</p>
       </div>
       <div class="col-sm home-panel">
         <h4><strong>You</strong> have the power</h4>
-        <img src="http://www.piedpiper.com/app/themes/pied-piper/dist/images/icon-power.png">
+        <img class="img-fluid" src="http://www.piedpiper.com/app/themes/pied-piper/dist/images/icon-power.png">
         <p>With decentralized apps and storage to make the internet the fastest it can be</p>
       </div>
     </div>
@@ -33,5 +33,56 @@
     <hr>
   </div>
 </div>
+
+
+  <div class="container">
+
+        <h2 class="text-center">The Problem</h2>
+        <p>Beneath the flashy homepages of your favorite sites lurk Hooli™ and other evil corporations out to hoard and sell your <strong>most personal data.</strong></p>
+        <p>What was built to be the ultimate platform for the free sharing of knowledge has turned into a money-hungry monster feasting on our privacy and freedom.</p>
+        <h5 class="text-center">But fear not, for Pied Piper has the answer! And it’s <i>simple</i>:</h5>
+        <p>An autonomous peer-to-peer network featuring distributed storage powered by universal compression, accelerated scheduling allocation, and end-to-end encryption.</p>
+        <h5 class="text-center">Put even simpler — it’s the internet, <strong>completely decentralized.</strong></h5>
+        </div>
+  </div>
+
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h3 class="text-center">Send us a message</h3>
+
+    {% include 'partials/_alerts.html' %}
+    
+    <form action="{% url 'contact' %}" method="POST">
+      {% csrf_token %}
+      
+      <div class="form-group">
+        {{ form.email.errors }}
+          <label for="{{ form.email.id_for_label }}">Email:</label>
+        {{ form.email }}
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+      </div>
+      
+      <div class="form-group">
+        {{ form.subject.errors }}
+          <label for="{{ form.subject.id_for_label }}">Subject:</label>
+        {{ form.subject }}
+      </div>
+
+      <div class="form-group">
+        {{ form.message.errors }}
+          <label for="{{ form.message.id_for_label }}">Message:</label>
+        {{ form.message }}
+      </div>
+      
+      <div class="form-actions ml-auto">
+        <button type="submit" class="btn btn-primary btn-block">Send</button>
+      </div>
+      
+
+    </form>
+  </div>
+</div>
+
 
 {% endblock %}
