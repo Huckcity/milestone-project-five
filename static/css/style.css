@@ -87,6 +87,10 @@ body	{
   list-style-type: none;
 }
 
+
+.dashboard-progress {
+  width: 30%;
+}
 /****************BOOTSTRAP CARD OVERWRITES************************/
 
 .card {
@@ -124,4 +128,12 @@ body	{
 
 .list-group-item:hover {
   background-color: #17a2b8;
+}
+
+.progress {
+  height: 25px;
+}
+
+.progress-bar {
+  color: rgb(66, 66, 66);
 }

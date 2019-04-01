@@ -1,6 +1,13 @@
 <div class="card">
     <h5 class="card-header">Comments
-    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Add Comment</button>
+        {% if 'dashboard' not in request.path %}
+        <button type="button" 
+                class="btn btn-primary btn-sm"
+                data-toggle="modal" 
+                data-target="#exampleModal">
+                Add Comment
+        </button>
+        {% endif %}
     </h5>
 
     {% if comments %}
@@ -13,6 +20,11 @@
                     <p>
                         {{ comment }}
                     </p>
+                    {% if 'dashboard' in request.path %}
+                    <small class="float-right">
+                        <a href="{% url 'bug' bugid=comment.ticketid.id %}">View in context >></a>
+                    </small>
+                    {% endif %}
                 </div>
             </div>
         

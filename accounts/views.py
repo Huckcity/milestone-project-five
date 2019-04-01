@@ -8,11 +8,13 @@ Dashboard
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from decimal import Decimal
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.models import User
 
-from tickets.models import Ticket
+from tickets.models import Ticket, Contribution
+from comments.models import Comment
 
 def login(request):
     """
@@ -103,12 +105,35 @@ def dashboard(request):
 
     users_bugs = Ticket.objects.all().filter(type='Bug', userid=request.user)
     users_features = Ticket.objects.all().filter(type='Feature', userid=request.user)
-    users_comments = Ticket.objects.all().filter(userid=request.user)
+    users_comments = Comment.objects.all().filter(userid=request.user)
+
+    for single_bug in users_bugs:
+
+        single_bug.num_comments = Comment.objects.all().filter(ticketid=single_bug.pk).count()
+
+
+    for single_feature in users_features:
+
+        contributions = Contribution.objects.all().filter(ticket=single_feature)
+        contrib_amount = Decimal(0.00)
+
+        for contrib in contributions:
+            contrib_amount += contrib.amount
+
+        # Determine percentage of goal met, or 100% if over goal amount
+        # backslash allows for line break within logic to fix line too long error(pylint)
+        contrib_percent = (contrib_amount / single_feature.price) * 100 \
+                            if contrib_amount < single_feature.price else 100
+
+        single_feature.total_cost = single_feature.price
+        single_feature.current_contribs = contrib_amount
+        single_feature.contrib_percent = contrib_percent
 
     context = {
         'bugs': users_bugs,
         'features' : users_features,
         'comments' : users_comments,
+        'new_comments' : users_comments,
     }
 
     return render(request, 'accounts/dashboard.html', context=context)

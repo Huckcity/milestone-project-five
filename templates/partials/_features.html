@@ -1,36 +1,28 @@
 <div class="main-container">
-    <table class="table table-hover table-responsive-sm">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-        </tr>
-    </thead>
-    <tbody>
+    
+    <div class="list-group">
     
     {% if features %}
     
         {% for feature in features %}
-        
-            <tr>
-                <th scope="row">{{ feature.id }}</th>
-                <td>{{ feature.title }}</td>
-                <td>{{ feature.description | truncatechars:40 }}</td>
-                <td><a href="{% url 'feature' feature.id %}">View</a></td>
-            </tr>
+
+
+            <a href="{% url 'feature' feature.id %}"
+                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                <span><b>#{{ feature.id }}</b> - <b>{{ feature.title }}</b></span>
+                
+                {% include 'partials/_progressbar.html' %}
+            </a>
         
         {% endfor %}
         
     {% else %}
     
-        <tr>
-            <td>No featues found.</td>
-        </tr>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        No features found
+    </li>
     
     {% endif %}
     
-    </tbody>
-    </table>
+    </div>
 </div>

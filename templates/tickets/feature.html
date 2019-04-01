@@ -66,16 +66,7 @@
                 </div>
 
                 <div class="bug-details-item">
-                    <div class="progress"  style="height: 25px">
-                        <div class="progress-bar progress-bar-striped" 
-                             role="progressbar" 
-                             style="width: {{ contributions.contrib_percent|stringformat:'d' }}%; height: 25px" 
-                             aria-valuenow="{{ contributions.contrib_percent|stringformat:'d' }}" 
-                             aria-valuemin="0" 
-                             aria-valuemax="{{ feature.price|stringformat:'d' }}">
-                             <strong>&euro;{{ contributions.current_contribs }} - {{ contributions.contrib_percent }}%</strong>
-                        </div>
-                    </div>
+                    {% include 'partials/_progressbar.html' %}
                 </div>
 
                 <form>

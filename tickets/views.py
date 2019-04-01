@@ -98,8 +98,8 @@ def feature(request, featureid):
     else:
 
         current_feature = get_object_or_404(Ticket, pk=featureid)
-        contributions = Contribution.objects.all().filter(ticket=featureid)
         comments = Comment.objects.all().filter(ticketid=featureid)
+        contributions = Contribution.objects.all().filter(ticket=featureid)
         contrib_amount = Decimal(0.00)
 
         for contrib in contributions:
