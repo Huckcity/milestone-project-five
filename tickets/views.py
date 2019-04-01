@@ -111,15 +111,14 @@ def feature(request, featureid):
         contrib_percent = (contrib_amount / current_feature.price) * 100 \
                            if contrib_amount < current_feature.price else 100
 
-        contribution_stats = {
-            'total_cost' : current_feature.price,
-            'current_contribs' : contrib_amount,
-            'contrib_percent' : contrib_percent
-        }
+
+
+        current_feature.total_cost = current_feature.price
+        current_feature.current_contribs = contrib_amount
+        current_feature.contrib_percent = contrib_percent
 
         context = {
             'feature': current_feature,
-            'contributions': contribution_stats,
             'comments': comments,
         }
 
