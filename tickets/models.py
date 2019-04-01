@@ -53,3 +53,15 @@ class Contribution(models.Model):
 
     def __str__(self):
         return self.userid.username
+
+class Vote(models.Model):
+    """
+    Votes model for handling users upvoting bug reports
+    """
+
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    ticket = models.ForeignKey(Ticket, on_delete=models.DO_NOTHING)
+    voted_on = models.DateTimeField(default=datetime.now)
+
+    def __str__(self):
+        return self.user.username

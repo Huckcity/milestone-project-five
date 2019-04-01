@@ -1,8 +1,12 @@
+/*** FIXED BACKGROUND IMAGE ***/
+
 body	{ 
   background:url('../images/circuitboard.png') top right no-repeat;
   background-size: 100% 100%;
 	background-attachment:fixed;
 }
+
+/*** STICKY FOOTER ***/
 
 .page-container {
   display: flex;
@@ -17,10 +21,16 @@ body	{
   height: 100%;
 }
 
+/*** END STICKY FOOTER ***/
+
+
 .logo {
   width: 60px;
 }
 
+.main-container {
+  margin: 20px 0;
+}
 
 .comment-body {
   padding: 10px;
@@ -110,4 +120,8 @@ body	{
   h1, h2, h3, h4, h5, h6 {
     font-size: 5vw;
   }
+}
+
+.list-group-item:hover {
+  background-color: #17a2b8;
 }

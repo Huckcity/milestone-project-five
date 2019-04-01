@@ -22,10 +22,10 @@
     {% if bug %}
     
         <div class="card">
-            <!--<h5 class="card-header">BugID #{{ bug.id }}</h5>-->
             <h5 class="card-header">
                 {{ bug.title }}
                 <small class="text-muted"> posted on {{ bug.created_on }} by {{ bug.userid.username }}</small>
+                <span class="float-right">{{ votes }} vote{% if votes == 0 or votes > 1 %}s{% endif %}</span>
             </h5>
             <div class="card-body">
                 
@@ -59,6 +59,14 @@
                     
                     </h6>
                 </div>
+
+                <form action="{% url 'addvote' bug.id %}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-info float-right">
+                        Me Too 
+                        <i class="far fa-arrow-alt-circle-up"></i>
+                    </button>
+                </form>
                 
             </div>
         </div>

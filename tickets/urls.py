@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^feature/(?P<featureid>\d+)/$', views.feature, name='feature'),
     url(r'^addbug', views.addbug, name='addbug'),
     url(r'^addfeature', views.addfeature, name='addfeature'),
+    url(r'^addvote/(?P<bugid>\d+)/$', views.addvote, name='addvote'),
     ]

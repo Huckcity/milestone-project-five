@@ -6,11 +6,12 @@ Bugs/Features Lists
 Add Bug/Feature
 """
 from decimal import Decimal
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from comments.models import Comment
 
-from .models import Ticket, Contribution
+from .models import Ticket, Contribution, Vote
 from .forms import AddBug, AddFeature
 
 
@@ -18,7 +19,17 @@ def bugs(request):
     """
     View for bug listsing page
     """
-    all_bugs = Ticket.objects.all().filter(type='Bug')
+    bug_set = Ticket.objects.all().filter(type='Bug')
+
+    for single_bug in bug_set:
+
+        single_bug.num_comments = Comment.objects.all().filter(ticketid=single_bug.pk).count()
+
+    paginator = Paginator(bug_set, 5)
+
+    page = request.GET.get('page', 1)
+
+    all_bugs = paginator.page(page)
 
     context = {
         'bugs': all_bugs
@@ -58,10 +69,12 @@ def bug(request, bugid):
 
         current_bug = get_object_or_404(Ticket, pk=bugid)
         comments = Comment.objects.all().filter(ticketid=bugid)
+        votes = Vote.objects.all().filter(ticket=bugid).count()
 
         context = {
             'bug': current_bug,
-            'comments': comments
+            'comments': comments,
+            'votes' : votes
         }
 
         return render(request, 'tickets/bug.html', context)
@@ -93,7 +106,10 @@ def feature(request, featureid):
             contrib_amount += contrib.amount
             print(contrib_amount)
 
-        contrib_percent = (contrib_amount / current_feature.price) * 100 if contrib_amount < current_feature.price else 100
+        # Determine percentage of goal met, or 100% if over goal amount
+        # backslash allows for line break within logic to fix line too long error(pylint)
+        contrib_percent = (contrib_amount / current_feature.price) * 100 \
+                           if contrib_amount < current_feature.price else 100
 
         contribution_stats = {
             'total_cost' : current_feature.price,
@@ -154,3 +170,18 @@ def addfeature(request):
         form = AddFeature()
 
     return render(request, 'tickets/addfeature.html', {'form':form})
+
+def addvote(request, bugid):
+    """
+    Upvote handler, to be called asynchronously
+    """
+    if request.method == "POST":
+
+        user = request.user
+        ticket = get_object_or_404(Ticket, pk=bugid)
+
+        vote = Vote(user=user, ticket=ticket)
+        vote.save()
+
+        messages.success(request, 'Thanks for your vote.')
+        return redirect('/tickets/bug/'+bugid)

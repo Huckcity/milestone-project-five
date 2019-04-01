@@ -5,57 +5,77 @@
 {% block content %}
 
 <div class="container">
-    
+
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'dashboard' %}">Dashboard</a></li>
             <li class="breadcrumb-item">Bugs</li>
         </ol>
     </nav>
-        
+
     <h1 class="display-4">Bug Reports</h1>
 
     {% include 'partials/_alerts.html' %}
-    
+
     <div class="main-container">
-        <table class="table table-hover table-responsive-sm">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-            </tr>
-        </thead>
-        <tbody>
-        
-        {% if bugs %}
-        
+
+        <div class="list-group">
+
+            {% if bugs %}
+
             {% for bug in bugs %}
+
+            <a href="{% url 'bug' bug.id %}"
+                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                <span><b>#{{ bug.id }}</b> - <b>{{ bug.title }}</b></span>
+                <span class="badge badge-primary">{{ bug.num_comments}}
+                    comment{% if bug.num_comments > 1 or bug.num_comments == 0 %}s{%endif%}</span>
+            </a>
+
+            {% endfor %}
+
+            {% else %}
+
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                No bugs found
+            </li>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    {% if bugs.has_other_pages %}
+    <nav>
+        <ul class="pagination">
+            {% if bugs.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ bugs.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+            {% endif %}
             
-                <tr>
-                    <th scope="row">{{ bug.id }}</th>
-                    <td>{{ bug.title }}</td>
-                    <td>{{ bug.description | truncatechars:40 }}</td>
-                    <td><a href="{% url 'bug' bug.id %}">View</a></td>
-                </tr>
+            {% for i in bugs.paginator.page_range %}
+
+                {% if bugs.number == i %}
+                    <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+                {% else %}
+                    <li><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
             
             {% endfor %}
-            
-        {% else %}
-        
-            <tr>
-                <td>No bugs found.</td>
-            </tr>
-        
-        {% endif %}
-        
-        </tbody>
-        </table>
-    </div>
-    
+
+            {% if bugs.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ bugs.next_page_number }}">&raquo;</a></li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+
     <a href="{% url 'addbug' %}" class="btn btn-info float-right">Add Bug</a>
-    
+
 </div>
 
 {% endblock %}
