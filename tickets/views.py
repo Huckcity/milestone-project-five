@@ -43,6 +43,23 @@ def features(request):
     """
     all_features = Ticket.objects.all().filter(type='Feature')
 
+    for single_feature in all_features:
+
+        contributions = Contribution.objects.all().filter(ticket=single_feature)
+        contrib_amount = Decimal(0.00)
+
+        for contrib in contributions:
+            contrib_amount += contrib.amount
+
+        # Determine percentage of goal met, or 100% if over goal amount
+        # backslash allows for line break within logic to fix line too long error(pylint)
+        contrib_percent = (contrib_amount / single_feature.price) * 100 \
+                            if contrib_amount < single_feature.price else 100
+
+        single_feature.total_cost = single_feature.price
+        single_feature.current_contribs = contrib_amount
+        single_feature.contrib_percent = contrib_percent
+
     context = {
         'features': all_features
     }

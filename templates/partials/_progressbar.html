@@ -1,7 +1,7 @@
-<div class="progress position-relative
-            {% if '/dashboard' in request.path %}
-            dashboard-progress
-            {% endif %}">
+<div class="progress position-relative 
+        {% if '/feature/' not in request.path %}
+        dashboard-progress
+        {% endif %}">
     <div class="progress-bar progress-bar-striped" 
             role="progressbar" 
             style="width: {{ feature.contrib_percent|stringformat:'d' }}%; height: 25px" 
