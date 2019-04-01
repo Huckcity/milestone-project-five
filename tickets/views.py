@@ -180,8 +180,15 @@ def addvote(request, bugid):
         user = request.user
         ticket = get_object_or_404(Ticket, pk=bugid)
 
-        vote = Vote(user=user, ticket=ticket)
-        vote.save()
+        existing_vote = Vote.objects.all().filter(user=user, ticket=ticket).count()
+        print(existing_vote)
 
-        messages.success(request, 'Thanks for your vote.')
-        return redirect('/tickets/bug/'+bugid)
+        if existing_vote > 0:
+            messages.error(request, 'You have already upvoted this bug!')
+            return redirect('/tickets/bug/'+bugid)
+        else:
+            vote = Vote(user=user, ticket=ticket)
+            vote.save()
+
+            messages.success(request, 'Thanks for your vote.')
+            return redirect('/tickets/bug/'+bugid)

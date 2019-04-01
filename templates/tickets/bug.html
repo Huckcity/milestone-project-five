@@ -25,7 +25,6 @@
             <h5 class="card-header">
                 {{ bug.title }}
                 <small class="text-muted"> posted on {{ bug.created_on }} by {{ bug.userid.username }}</small>
-                <span class="float-right">{{ votes }} vote{% if votes == 0 or votes > 1 %}s{% endif %}</span>
             </h5>
             <div class="card-body">
                 
@@ -60,10 +59,16 @@
                     </h6>
                 </div>
 
-                <form action="{% url 'addvote' bug.id %}" method="POST">
+                <div class="bug-details-item">
+                    <h6 class="card-title">
+                        <span>{{ votes }} other user{% if votes == 0 or votes > 1 %}s have{% else %} has{% endif %} this problem</span>
+                    </h6>
+                </div>
+
+                <form action="{% url 'addvote' bug.id %}" method="POST" class="float-right">
                     {% csrf_token %}
-                    <button class="btn btn-info float-right">
-                        Me Too 
+                    <button class="btn btn-info">
+                        I have this problem too 
                         <i class="far fa-arrow-alt-circle-up"></i>
                     </button>
                 </form>
