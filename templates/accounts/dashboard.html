@@ -10,17 +10,14 @@
 
         {% include 'partials/_alerts.html' %}
 
-        {% for bug in bugs %}
+        <h2>My Bug Reports</h2>
+        {% include 'partials/_bugs.html' %}
 
-        <p>bug</p>
+        <h2>My Feature Requests</h2>
+        {% include 'partials/_features.html' %}
 
-        {% endfor %}
-
-        {% for feature in features %}
-
-        <p>feature</p>
-
-        {% endfor %}
+        <h2>My Comments</h2>
+        {% include 'partials/_comments.html' %}
 
     </div>
 </div>

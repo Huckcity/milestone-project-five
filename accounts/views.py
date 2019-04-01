@@ -101,12 +101,14 @@ def dashboard(request):
     View for dashboard display
     """
 
-    bugs = Ticket.objects.all().filter(type='Bug', userid=request.user)
-    features = Ticket.objects.all().filter(type='Feature', userid=request.user)
+    users_bugs = Ticket.objects.all().filter(type='Bug', userid=request.user)
+    users_features = Ticket.objects.all().filter(type='Feature', userid=request.user)
+    users_comments = Ticket.objects.all().filter(userid=request.user)
 
     context = {
-        'bugs': bugs,
-        'features' : features,
+        'bugs': users_bugs,
+        'features' : users_features,
+        'comments' : users_comments,
     }
 
     return render(request, 'accounts/dashboard.html', context=context)

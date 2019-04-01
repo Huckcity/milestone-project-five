@@ -17,7 +17,6 @@
     <h1 class="display-4"></h1>
 
     {% include 'partials/_alerts.html' %}
-
     
     {% if bug %}
     
@@ -78,33 +77,7 @@
         
         <hr>
         
-        <div class="card">
-            <h5 class="card-header">Comments
-            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Add Comment</button>
-            </h5>
-        
-            {% if comments %}
-
-                {% for comment in comments %}
-            
-                    <div class="comment-body">
-                        <div class="card-body">
-                            <small class="text-muted">On {{ bug.created_on }}, <b>{{ comment.userid.username }}</b> said:</small>
-                            <p>
-                                {{ comment }}
-                            </p>
-                        </div>
-                    </div>
-                
-                {% endfor %}
-
-            {% else %}
-
-                <div class="comment-body text-center">No comments found</div>
-            
-            {% endif %}
-            
-        </div>
+        {% include 'partials/_comments.html' %}
         
     {% endif %}
     

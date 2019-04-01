@@ -1,0 +1,28 @@
+<div class="main-container">
+
+    <div class="list-group">
+
+        {% if bugs %}
+
+        {% for bug in bugs %}
+
+        <a href="{% url 'bug' bug.id %}"
+            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+            <span><b>#{{ bug.id }}</b> - <b>{{ bug.title }}</b></span>
+            <span class="badge badge-primary">{{ bug.num_comments}}
+                comment{% if bug.num_comments > 1 or bug.num_comments == 0 %}s{%endif%}</span>
+        </a>
+
+        {% endfor %}
+
+        {% else %}
+
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            No bugs found
+        </li>
+
+        {% endif %}
+
+    </div>
+
+</div>
