@@ -16,8 +16,10 @@ import dj_database_url
 # Get local environment vars from env.py if possible, otherwise assume we're in deployment and using Heroku vars
 try:
     import env
+    DEBUG = True
 except ImportError:
-    pass
+    DEBUG = False
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -28,9 +30,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG")
 
 ALLOWED_HOSTS = ["unicorn-attractor-huckcity.c9users.io", "milestone-project-five.herokuapp.com", "127.0.0.1"]
 
