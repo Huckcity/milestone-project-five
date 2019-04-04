@@ -18,7 +18,7 @@ try:
     import env
     DEBUG = True
 except ImportError:
-    DEBUG = False
+    DEBUG = os.environ.get("DEBUG")
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
