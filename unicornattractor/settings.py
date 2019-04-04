@@ -30,7 +30,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG")
 
 ALLOWED_HOSTS = ["unicorn-attractor-huckcity.c9users.io", "milestone-project-five.herokuapp.com", "127.0.0.1"]
 
@@ -105,7 +105,7 @@ if DEBUG:
 else:
     DATABASES = {
         'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
-}
+    }
 
 
 # Password validation
