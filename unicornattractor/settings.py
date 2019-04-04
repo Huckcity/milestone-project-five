@@ -16,9 +16,8 @@ import dj_database_url
 # Get local environment vars from env.py if possible, otherwise assume we're in deployment and using Heroku vars
 try:
     import env
-    DEBUG = True
 except ImportError:
-    DEBUG = os.environ.get("DEBUG")
+    pass
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -27,6 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
+DEBUG = True
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
