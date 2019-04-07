@@ -2,129 +2,154 @@
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    
-    <link rel="stylesheet" href="{% static 'css/custom-bootstrap-theme.css' %}" type="text/css" />
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" />
-    
-    <title>{% block title %}{% endblock %} | UA</title>
-    
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="{% static 'css/custom-bootstrap-theme.css' %}" type="text/css" />
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" />
+
+  <title>{% block title %}{% endblock %} | UA</title>
+
 </head>
+
 <body>
-    
-<div class="page-container">
-  
-  <div class="header-container">
-    
-    <nav class="navbar navbar-expand-lg navbar-dark bg-green">
-      
-      <a class="navbar-brand" href="#">
+
+  <div class="page-container">
+
+    <div class="header-container">
+
+      <nav class="navbar navbar-expand-lg navbar-dark bg-green">
+
+        <a class="navbar-brand" href="#">
           <img src="{% static 'images/logo.png' %}" class="logo"></img>
           <a href="#" class="navbar-brand">Unicorn Attractor</a>
-      </a>
-      
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    
-        <!-- IF USER AUTHENTICATED -->
-    
-        {% if user.is_authenticated %}
-    
-        <ul class="navbar-nav mr-auto">
-    
-          <li {% if '/accounts/dashboard' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
-            <a class="nav-link" href="{% url 'dashboard' %}">
-              <i class="fas fa-home"></i>
-              Dashboard
-            </a>
-          </li>
-          <li {% if '/tickets/bugs' == request.path or '/tickets/bug/' in request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
-            <a class="nav-link" href="{% url 'bugs' %}">
-              <i class="fas fa-bug"></i>
-              Bugs
-            </a>
-          </li>
-          <li {% if '/tickets/features' == request.path or '/tickets/feature/' in request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
-            <a class="nav-link" href="{% url 'features' %}">
-              <i class="fas fa-award"></i>
-              Features
-            </a>
-          </li>
+        </a>
 
-          {% if user.is_staff %}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+          <!-- IF USER AUTHENTICATED -->
+
+          {% if user.is_authenticated %}
+
+          <ul class="navbar-nav mr-auto">
+
+            <li {% if '/accounts/dashboard' == request.path %} class="nav-item active" {% else %} class="nav-item"
+              {% endif %}>
+              <a class="nav-link" href="{% url 'dashboard' %}">
+                <i class="fas fa-home"></i>
+                Dashboard
+              </a>
+            </li>
+            <li {% if '/tickets/bugs' == request.path or '/tickets/bug/' in request.path %} class="nav-item active"
+              {% else %} class="nav-item" {% endif %}>
+              <a class="nav-link" href="{% url 'bugs' %}">
+                <i class="fas fa-bug"></i>
+                Bugs
+              </a>
+            </li>
+            <li {% if '/tickets/features' == request.path or '/tickets/feature/' in request.path %}
+              class="nav-item active" {% else %} class="nav-item" {% endif %}>
+              <a class="nav-link" href="{% url 'features' %}">
+                <i class="fas fa-award"></i>
+                Features
+              </a>
+            </li>
+
+            {% if user.is_staff %}
 
             <li class="nav-item">
               <a class="nav-link" href="{% url 'admin:index' %}" target="_blank">
-                <i class="fas fa-award"></i>
+                <i class="fas fa-cogs"></i>
                 Admin
               </a>
             </li>
 
+            {% endif %}
+
+            <li {% if '/accounts/logout' == request.path %} class="nav-item active" {% else %} class="nav-item"
+              {% endif %}>
+              <a class="nav-link" href="javascript:{document.getElementById('logout').submit()}">
+                Log Out
+                <i class="fas fa-sign-out-alt"></i>
+              </a>
+              <form action="{% url 'logout' %}" method="POST" id="logout">
+                {% csrf_token %}
+                <input type="hidden">
+              </form>
+            </li>
+
+          </ul>
+
+          <ul class="navbar-nav ml-auto">
+
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'cart' %}">
+                <i class="fas fa-shopping-cart"></i>
+                Cart - &euro;{{ total }}
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <form class="form-inline">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-info" type="submit">Search</button>
+              </form>
+            </li>
+          </ul>
+
+
+          <!-- END OF AUTHENTICATED NAV-->
+
+          <!-- IF USER NOT AUTHENTICATED -->
+
+          {% else %}
+
+          <ul class="navbar-nav ml-auto">
+
+            <li {% if '/' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
+              <a class="nav-link" href="{% url 'index' %}">Home</a>
+            </li>
+            <li {% if '/accounts/login' == request.path %} class="nav-item active" {% else %} class="nav-item"
+              {% endif %}>
+              <a class="nav-link" href="{% url 'login' %}">Log In</a>
+            </li>
+            <li {% if '/accounts/register' == request.path %} class="nav-item active" {% else %} class="nav-item"
+              {% endif %}>
+              <a class="nav-link" href="{% url 'register' %}">Register</a>
+            </li>
+
+          </ul>
+
           {% endif %}
 
-          <li {% if '/accounts/logout' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
-            <a class="nav-link" href="javascript:{document.getElementById('logout').submit()}">
-              Log Out
-              <i class="fas fa-sign-out-alt"></i>
-            </a>
-            <form action="{% url 'logout' %}" method="POST" id="logout">
-              {% csrf_token %}
-              <input type="hidden">
-            </form>
-          </li>
-    
-        </ul>
-    
-        <form class="form-inline ml-auto">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-info" type="submit">Search</button>
-        </form>
-        <!-- END OF AUTHENTICATED NAV-->
-    
-        <!-- IF USER NOT AUTHENTICATED -->
-    
-        {% else %}
-    
-        <ul class="navbar-nav ml-auto">
-    
-          <li {% if '/' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
-            <a class="nav-link" href="{% url 'index' %}">Home</a>
-          </li>
-          <li {% if '/accounts/login' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
-            <a class="nav-link" href="{% url 'login' %}">Log In</a>
-          </li>
-          <li {% if '/accounts/register' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
-            <a class="nav-link" href="{% url 'register' %}">Register</a>
-          </li>
-    
-        </ul>
-    
-        {% endif %}
-    
-        <!-- END OF NOT AUTHENTICATED NAV-->
-    
-      </div>
-    </nav>
-    
-  </div>
-    
-  <div class="content">
+          <!-- END OF NOT AUTHENTICATED NAV-->
+
+        </div>
+      </nav>
+
+    </div>
+
+    <div class="content">
       {% block content %}
       {% endblock %}
-  </div>
+    </div>
 
-    
-  <!--<footer class="navbar navbar-expand-lg navbar-dark bg-green">-->
+
+    <!--<footer class="navbar navbar-expand-lg navbar-dark bg-green">-->
     <div class="container-fluid footer">
       <div class="row">
         <div class="col-4">
@@ -152,15 +177,21 @@
         </div>
       </div>
     </div>
-  <!--</footer>-->
-    
-    
-</div>
+    <!--</footer>-->
 
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
-  </body>
+  </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
+  <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+</body>
+
 </html>

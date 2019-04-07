@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="container">
+
+    {% if cart_items %}
+
+    {% for item in cart_items %}
+
+    <div class="row">
+        <div class="align-items-center">
+            <p>{{ item.title }}<strong>Amount: <span>£{{ item.contrib_amount }}</span></strong></p>
+
+        </div>
+    </div>
+
+    {% endfor %}
+    
+    {% endif %}
+</div>
+
+{% endblock %}

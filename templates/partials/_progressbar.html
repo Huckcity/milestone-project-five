@@ -8,6 +8,6 @@
             aria-valuenow="{{ feature.contrib_percent|stringformat:'d' }}" 
             aria-valuemin="0" 
             aria-valuemax="{{ feature.price|stringformat:'d' }}">
-            <strong class="justify-content-center d-flex position-absolute w-100">&euro;{{ feature.current_contribs }} - {{ feature.contrib_percent }}%</strong>
+            <strong class="justify-content-center d-flex position-absolute w-100">&euro;{{ feature.current_contribs }} - {{ feature.contrib_percent|stringformat:'d' }}%</strong>
     </div>
 </div>

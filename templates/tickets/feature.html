@@ -69,8 +69,13 @@
                     {% include 'partials/_progressbar.html' %}
                 </div>
 
-                <form>
-                    <button class="btn btn-info float-right">Contribute</button>
+                <form action="{% url 'addtocart' feature.id %}" method="POST" class="float-right">
+                    {% csrf_token %}
+                    <div class="controls form-inline">
+                        <span>&euro;</span>
+                        <input class="form-control float-right" type="number" min="1" step="any" name="contribution_amount" value="0.00" />
+                        <button class="btn btn-info float-right">Contribute</button>
+                    </div>
                 </form>
                 
             </div>

@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'admin/', admin.site.urls),
     url(r'accounts/', include('accounts.urls')),
     url(r'tickets/', include('tickets.urls')),
+    url(r'cart/', include('cart.urls')),
 ]
 #  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
