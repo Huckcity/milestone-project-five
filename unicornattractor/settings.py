@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 import dj_database_url
 
+from django.contrib.messages import constants as messages
+
 # Get local environment vars from env.py if possible, otherwise assume we're in deployment and using Heroku vars
 try:
     import env
@@ -26,12 +28,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
-DEBUG = False
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', ''))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-ALLOWED_HOSTS = ["unicorn-attractor-huckcity.c9users.io", "milestone-project-five.herokuapp.com", "127.0.0.1"]
+ALLOWED_HOSTS = ["unicorn-attractor-huckcity.c9users.io",
+                 "milestone-project-five.herokuapp.com",
+                 "127.0.0.1"]
 
 
 # Application definition
@@ -48,6 +52,7 @@ INSTALLED_APPS = [
     'accounts',
     'tickets',
     'comments',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -60,7 +65,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
 ]
 
 ROOT_URLCONF = 'unicornattractor.urls'
@@ -83,18 +87,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'unicornattractor.wsgi.application'
 
-if DEBUG:
+if 'DATABASE_URL' in os.environ:
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+    }
+else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
-else:
-    DATABASES = {
-        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
-    }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -136,11 +139,22 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+#S3 configuration
+
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_DEFAULT_ACL = None
+
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % os.environ.get("AWS_STORAGE_BUCKET_NAME")
+
+if not DEBUG:
+    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
+    STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+else:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ### Including for bootstrap form styling
 
@@ -149,7 +163,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 ### Settings for using Django's built in messages functionality
 
-from django.contrib.messages import constants as messages
+
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
