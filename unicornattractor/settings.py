@@ -139,22 +139,22 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
-
 #S3 configuration
 
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_DEFAULT_ACL = None
-
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % os.environ.get("AWS_STORAGE_BUCKET_NAME")
 
 if not DEBUG:
     AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
     STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    MEDIA_ROOT = os.path.join(AWS_S3_CUSTOM_DOMAIN, 'media')
 else:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/media/'
 
 ### Including for bootstrap form styling
 
