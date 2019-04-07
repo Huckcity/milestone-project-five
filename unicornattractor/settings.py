@@ -151,7 +151,7 @@ AWS_DEFAULT_ACL = None
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % os.environ.get("AWS_STORAGE_BUCKET_NAME")
 
 if not DEBUG:
-    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
+    AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
     STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 else:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -159,7 +159,6 @@ else:
 ### Including for bootstrap form styling
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
 
 ### Settings for using Django's built in messages functionality
 
@@ -169,8 +168,6 @@ MESSAGE_TAGS = {
 }
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
-
-
 
 ### Email config, using Sendgrid as development example
 
