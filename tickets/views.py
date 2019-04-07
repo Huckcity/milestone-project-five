@@ -9,6 +9,7 @@ from decimal import Decimal
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from comments.models import Comment
 
 from .models import Ticket, Contribution, Vote
@@ -141,6 +142,7 @@ def feature(request, featureid):
 
         return render(request, 'tickets/feature.html', context)
 
+@login_required
 def addbug(request):
     """
     View for adding a bug
@@ -164,6 +166,7 @@ def addbug(request):
 
     return render(request, 'tickets/addbug.html', {'form':form})
 
+@login_required
 def addfeature(request):
     """
     View for adding a feature
@@ -187,6 +190,7 @@ def addfeature(request):
 
     return render(request, 'tickets/addfeature.html', {'form':form})
 
+@login_required
 def addvote(request, bugid):
     """
     Upvote handler, to be called asynchronously

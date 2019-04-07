@@ -12,6 +12,7 @@ from decimal import Decimal
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 from tickets.models import Ticket, Contribution
 from comments.models import Comment
@@ -86,6 +87,7 @@ def register(request):
 
         return render(request, 'accounts/register.html')
 
+@login_required
 def logout(request):
     """
     View for handling logout functionality, clears session and redirects to index
@@ -98,6 +100,7 @@ def logout(request):
 
     return redirect('index')
 
+@login_required
 def dashboard(request):
     """
     View for dashboard display
