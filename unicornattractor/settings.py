@@ -28,7 +28,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
-DEBUG = bool(os.environ.get("DEBUG", False))
+#DEBUG = bool(os.environ.get("DEBUG", False))
+DEBUG = False
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
@@ -152,7 +153,7 @@ AWS_S3_OBJECT_PARAMETERS = {
 
 DEFAULT_FILE_STORAGE = 'storage_backends.MediaStorage'
 
-if not DEBUG:
+if DEBUG is False:
     STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
     STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
     MEDIA_ROOT = os.path.join(AWS_S3_CUSTOM_DOMAIN, 'media')
