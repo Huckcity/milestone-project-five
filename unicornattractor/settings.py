@@ -134,32 +134,8 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.11/howto/static-files/
-
-# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# STATIC_URL = '/static/'
-
-# #S3 configuration
-
-# AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-# AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-# AWS_DEFAULT_ACL = None
-# AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % os.environ.get("AWS_STORAGE_BUCKET_NAME")
-
-# if not DEBUG:
-#     AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
-#     STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-#     MEDIA_ROOT = os.path.join(AWS_S3_CUSTOM_DOMAIN, 'media')
-# else:
-#     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-#     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# MEDIA_URL = '/media/'
-
 STATICFILES_DIRS = [
-    os.path.join(os.path.join(BASE_DIR, '/static'),)
+    os.path.join(os.path.join(BASE_DIR, 'static'),)
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -168,24 +144,28 @@ AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 AWS_DEFAULT_ACL = None
+AWS_LOCATION = 'static'
 
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
 }
 
-AWS_LOCATION = 'static'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-
 DEFAULT_FILE_STORAGE = 'storage_backends.MediaStorage'
 
+if not DEBUG:
+    STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+    MEDIA_ROOT = os.path.join(AWS_S3_CUSTOM_DOMAIN, 'media')
+else:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    STATIC_URL = '/static/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 ### Including for bootstrap form styling
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 ### Settings for using Django's built in messages functionality
-
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',

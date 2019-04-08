@@ -10,6 +10,7 @@ def view_cart(request):
 
     return render(request, 'cart/cart.html')
 
+
 def addtocart(request, featureid):
     """
     Add an amount to the cart for contributions to check out at a later time
@@ -21,18 +22,20 @@ def addtocart(request, featureid):
         print(request.POST['contribution_amount'])
 
         cart[featureid] = {
-            'id' : featureid,
-            'contrib_amount' : request.POST['contribution_amount']
+            'id': featureid,
+            'contrib_amount': request.POST['contribution_amount']
         }
 
     else:
 
-        messages.error(request, 'You\'re already contributing to this feature.')
+        messages.error(
+            request, 'You\'re already contributing to this feature.')
         return redirect('/tickets/feature/'+featureid)
 
     request.session['cart'] = cart
 
     return redirect("cart")
+
 
 def removefromcart(request, featureid):
     """
@@ -49,13 +52,15 @@ def removefromcart(request, featureid):
 
     return redirect(reverse('cart'))
 
+
 def checkout(request):
 
     context = {
-        'key' : settings.STRIPE_PUBLISHABLE_KEY
+        'key': settings.STRIPE_PUBLISHABLE_KEY
     }
 
     return render(request, "cart/checkout.html", context)
+
 
 def charge(request):
 

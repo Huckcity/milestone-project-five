@@ -1,24 +1,26 @@
-{% extends 'base.html' %}
-{% load staticfiles %}
-
-{% block content %}
+{% extends 'base.html' %} {% load staticfiles %} {% block content %}
 
 <div class="container">
+  <div class="row">
+    {% if cart_items %} {% for item in cart_items %}
 
-    {% if cart_items %}
+    <div class="card w-100 cart-card">
+      <div class="card-header">
+        <h2>{{ item.title }}</h2>
+      </div>
 
-    {% for item in cart_items %}
-
-    <div class="row">
-        <div class="align-items-center">
-            <p>{{ item.title }}<strong>Amount: <span>£{{ item.contrib_amount }}</span></strong></p>
-
-        </div>
+      <div class="card-body">
+        <h5 class="card-title"></h5>
+        <p class="card-text">{{ item.description }}</p>
+      </div>
     </div>
 
-    {% endfor %}
-    
+    {% endfor %} {% else %}
+
+    <p>Empty cart</p>
+
     {% endif %}
+  </div>
 </div>
 
 {% endblock %}
