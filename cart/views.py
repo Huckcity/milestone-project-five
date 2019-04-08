@@ -32,7 +32,7 @@ def addtocart(request, featureid):
 
     request.session['cart'] = cart
 
-    return render(request, "cart/cart.html")
+    return redirect("cart")
 
 def removefromcart(request, featureid):
     """
