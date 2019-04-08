@@ -1,6 +1,10 @@
-from django.shortcuts import render, get_object_or_404, redirect, reverse
+import stripe
+
+from django.conf import settings
+
+from django.shortcuts import render, redirect, reverse
 from django.contrib import messages
-from tickets.models import Ticket
+
 
 def view_cart(request):
 
@@ -44,3 +48,22 @@ def removefromcart(request, featureid):
     request.session['cart'] = cart
 
     return redirect(reverse('cart'))
+
+def checkout(request):
+
+    context = {
+        'key' : settings.STRIPE_PUBLISHABLE_KEY
+    }
+
+    return render(request, "cart/checkout.html", context)
+
+def charge(request):
+
+    if request.method == 'POST':
+        charge = stripe.Charge.create(
+            amount=request.POST['data-amount'],
+            currency='usd',
+            description='A Django charge',
+            source=request.POST['stripeToken']
+        )
+        return render(request, 'charge.html')

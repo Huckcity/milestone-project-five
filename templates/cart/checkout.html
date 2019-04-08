@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+<h1>{{ total }}</h1>
+
+<form action="{% url 'charge' %}" method="post">
+    {% csrf_token %}
+    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+        data-key="{{ key }}"
+        data-description="Unicorn Attractor Contribution"
+        data-amount="{{total}}00"
+        data-locale="auto">
+    </script>
+</form>
+{% endblock %}
