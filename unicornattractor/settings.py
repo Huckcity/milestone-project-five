@@ -154,14 +154,10 @@ AWS_S3_OBJECT_PARAMETERS = {
 
 DEFAULT_FILE_STORAGE = 'storage_backends.MediaStorage'
 
-if not DEBUG:
-    STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-    STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-    MEDIA_ROOT = os.path.join(AWS_S3_CUSTOM_DOMAIN, 'media')
-else:
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-    STATIC_URL = '/static/'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+MEDIA_ROOT = os.path.join(AWS_S3_CUSTOM_DOMAIN, 'media')
+
 
 ### Including for bootstrap form styling
 
