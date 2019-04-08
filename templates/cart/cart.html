@@ -1,23 +1,84 @@
-{% extends 'base.html' %} {% load staticfiles %} {% block content %}
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
 
 <div class="container">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">
+        <a href="{% url 'dashboard' %}">Dashboard</a>
+      </li>
+      <li class="breadcrumb-item">Cart</li>
+    </ol>
+  </nav>
+
+  <h1 class="display-4">Cart</h1>
+
+  {% include 'partials/_alerts.html' %}
+
   <div class="row">
     {% if cart_items %} {% for item in cart_items %}
 
     <div class="card w-100 cart-card">
       <div class="card-header">
-        <h2>{{ item.title }}</h2>
+        <h2>#{{ item.id }} - {{ item.title }}</h2>
       </div>
 
       <div class="card-body">
-        <h5 class="card-title"></h5>
+        <h5 class="card-title">
+          <span class="d-inline">Contribution Amount:</span>
+          <form
+            action="{% url 'updatecart' item.id %}"
+            method="POST"
+            class="form-inline d-inline"
+          >
+            {% csrf_token %}
+            <span class="d-inline">&euro;</span>
+            <input
+              class="form-control"
+              type="number"
+              min="1"
+              step="any"
+              name="contribution_amount"
+              value="{{ item.contrib_amount }}"
+            />
+            <button type="submit" class="btn btn-primary">Update Amount</button>
+          </form>
+        </h5>
+        <h5 class="card-title">Feature Details:</h5>
         <p class="card-text">{{ item.description }}</p>
+
+        <form
+          action="{% url 'removefromcart' item.id %}"
+          method="POST"
+          class="float-right"
+        >
+          {% csrf_token %}
+          <div class="controls form-inline">
+            <button class="btn btn-dark float-right">Remove Item</button>
+          </div>
+        </form>
       </div>
     </div>
 
-    {% endfor %} {% else %}
+    {% endfor %}
 
-    <p>Empty cart</p>
+    <a href="{% url 'checkout' %}" class="btn btn-info ml-auto">Checkout</a>
+
+    {% else %}
+
+    <div class="card w-100">
+      <div class="card-header">
+        Nothing here...
+      </div>
+      <div class="card-body">
+            <p class="card-text">You haven't added any contributions yet. Please head over to the <a href="{% url 'features' %}">Features</a> page and consider contributing.</p>
+      </div>
+    </div>
 
     {% endif %}
   </div>
