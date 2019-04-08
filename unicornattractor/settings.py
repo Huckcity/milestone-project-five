@@ -29,7 +29,7 @@ try:
 except ImportError:
     pass
 
-DEBUG = bool(os.getenv("DEBUG"))
+# DEBUG = bool(os.getenv("DEBUG"))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
