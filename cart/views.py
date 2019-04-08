@@ -1,6 +1,6 @@
+from decimal import Decimal
 import stripe
 
-from decimal import *
 from django.conf import settings
 
 from django.shortcuts import render, redirect, reverse, get_object_or_404
@@ -80,14 +80,14 @@ def charge(request):
 
         try:
 
-            charge = stripe.Charge.create(
+            payment = stripe.Charge.create(
                 amount=int(total_charge*100),
                 currency='eur',
                 description='UA Feature Contribution',
                 source=request.POST['stripeToken']
             )
 
-            if charge.paid:
+            if payment.paid:
 
                 for item in cart.keys():
 
