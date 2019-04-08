@@ -25,6 +25,7 @@ def bugs(request):
     for single_bug in bug_set:
 
         single_bug.num_comments = Comment.objects.all().filter(ticketid=single_bug.pk).count()
+        single_bug.num_votes = Vote.objects.all().filter(ticket=single_bug.pk).count()
 
     paginator = Paginator(bug_set, 5)
 

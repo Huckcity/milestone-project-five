@@ -14,7 +14,7 @@ from django.contrib import messages, auth
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
-from tickets.models import Ticket, Contribution
+from tickets.models import Ticket, Contribution, Vote
 from comments.models import Comment
 
 def login(request):
@@ -113,6 +113,7 @@ def dashboard(request):
     for single_bug in users_bugs:
 
         single_bug.num_comments = Comment.objects.all().filter(ticketid=single_bug.pk).count()
+        single_bug.num_votes = Vote.objects.all().filter(ticket=single_bug.pk).count()
 
 
     for single_feature in users_features:
