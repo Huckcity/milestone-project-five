@@ -23,6 +23,9 @@ body	{
 
 /*** END STICKY FOOTER ***/
 
+h1, h2, h3, h4, h5, h6 {
+  color: #689700;
+}
 
 .logo {
   width: 60px;
@@ -30,6 +33,13 @@ body	{
 
 .main-container {
   margin: 20px 0;
+}
+
+.placeholder {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f7f7f7;
 }
 
 .comment-body {
@@ -40,7 +50,7 @@ body	{
 }
 
 .comment-body:hover{
-   background-color:#f7f7f7;
+   background-color:#cecece;
 }
 
 .bug-details-item {
@@ -121,6 +131,10 @@ body	{
 }
 
 /********** OTHER BOOTSTRAP OVERWRITES **************/
+
+.jumbotron {
+  background: rgb(216, 216, 216);
+}
 
 .badge {
   padding: .45em .5em;

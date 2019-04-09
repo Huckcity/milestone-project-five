@@ -97,6 +97,13 @@
           <ul class="navbar-nav ml-auto">
 
             <li class="nav-item">
+              <a class="nav-link" href="{% url 'editprofile' %}">
+                <i class="fas fa-cog"></i>
+                Edit Profile
+              </a>
+            </li>
+
+            <li class="nav-item">
               <a class="nav-link" href="{% url 'cart' %}">
                 <i class="fas fa-shopping-cart"></i>
                 Cart - &euro;{{ total }}

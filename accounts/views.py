@@ -9,11 +9,15 @@ Dashboard
 from __future__ import unicode_literals
 
 from decimal import Decimal
+
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 
+from accounts.forms import EditProfile
 from tickets.models import Ticket, Contribution, Vote
 from comments.models import Comment
 
@@ -141,3 +145,42 @@ def dashboard(request):
     }
 
     return render(request, 'accounts/dashboard.html', context=context)
+
+def editprofile(request):
+
+    args = {}
+
+    if request.method == 'POST':
+        form = EditProfile(request.POST, instance=request.user)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile has been updated.')
+            return redirect('editprofile')
+    else:
+        form = EditProfile(instance=request.user)
+        args['form'] = form
+
+        return render(request, 'accounts/editprofile.html', args)
+
+def changepassword(request):
+
+    args = {}
+
+    if request.method == "POST":
+
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+
+            messages.success(request, 'Your password has been changed successfully.')
+            return redirect('dashboard')
+
+        messages.error(request, 'There was an error, please try again.')
+        return render(request, 'accounts/changepassword.html')
+
+    form = PasswordChangeForm(user=request.user)
+    args['form'] = form
+
+    return render(request, 'accounts/changepassword.html', args)
