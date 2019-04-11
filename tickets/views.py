@@ -213,3 +213,31 @@ def addvote(request, bugid):
 
             messages.success(request, 'Thanks for your vote.')
             return redirect('/tickets/bug/'+bugid)
+
+@login_required
+def editbug(request, ticketid):
+
+    ticket = get_object_or_404(Ticket, pk=ticketid)
+
+    form = AddBug(request.POST or None, instance=ticket)
+    if form.is_valid():
+        form.save()
+
+        messages.success(request, 'Changes saved!')
+        return redirect('bug', ticketid)
+
+    return render(request, 'tickets/editbug.html', {'form':form, 'ticketid':ticketid})
+
+@login_required
+def editfeature(request, ticketid):
+
+    ticket = get_object_or_404(Ticket, pk=ticketid)
+
+    form = AddFeature(request.POST or None, instance=ticket)
+    if form.is_valid():
+        form.save()
+
+        messages.success(request, 'Changes saved!')
+        return redirect('feature', ticketid)
+
+    return render(request, 'tickets/editfeature.html', {'form':form, 'ticketid':ticketid})

@@ -21,7 +21,7 @@
                         {{ comment }}
                     </p>
                     {% if 'dashboard' in request.path %}
-                    <small class="float-right">
+                    <small class="float-right font-weight-bold">
                         <a href="{% url 'bug' bugid=comment.ticketid.id %}">View in context >></a>
                     </small>
                     {% endif %}

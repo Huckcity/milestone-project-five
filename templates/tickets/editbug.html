@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h3>Edit Bug</h3>
+
+        {% include 'partials/_alerts.html' %}
+
+        <form method="POST" class="post-form">
+            {% csrf_token %}
+            
+            {{ form|crispy }}
+            
+            <a href="{% url 'bug' ticketid %}" class="btn btn-warning float-right" style="margin-left: 10px">
+                <i class="fas fa-times"></i> Cancel</a>
+            <button type="submit" class="btn btn-info float-right">
+                <i class="fas fa-check"></i> Save</button>
+            
+        </form>
+    </div>
+</div>
+{% endblock %}

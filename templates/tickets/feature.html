@@ -22,9 +22,26 @@
     
         <div class="card">
             
-            <h5 class="card-header">
+            <h5 class="card-header d-flex">
+
+                <span>
                 {{ feature.title }}
                 <small class="text-muted"> posted on {{ feature.created_on }} by {{ feature.userid.username }}</small>
+                </span>
+
+                {% if user == feature.userid or user.is_staff == True %}
+                <span class="ml-auto">
+                    <a href="{% url 'editfeature' feature.id %}" class="btn btn-secondary btn-sm">
+                        <i class="fas fa-pencil-alt"></i> Edit
+                    </a>
+                </span>
+                {% else %}
+                <span class="ml-auto">
+                    <button class="btn btn-secondary btn-sm" disabled>
+                        <i class="fas fa-ban"></i> Edit
+                    </button>
+                </span>            
+                {% endif %}
             </h5>
             <div class="card-body">
                 

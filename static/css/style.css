@@ -50,7 +50,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .comment-body:hover{
-   background-color:#cecece;
+   background-color:#f0f0f0;
 }
 
 .bug-details-item {
@@ -143,6 +143,9 @@ h1, h2, h3, h4, h5, h6 {
 @media screen and (max-width: 600px) {
   h1, h2, h3, h4, h5, h6 {
     font-size: 5vw;
+  }
+  .display-4 {
+    font-size: 2.5rem !important;
   }
 }
 

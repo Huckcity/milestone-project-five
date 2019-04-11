@@ -14,7 +14,11 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 def view_cart(request):
 
-    return render(request, 'cart/cart.html')
+    context = {
+        'key': settings.STRIPE_PUBLISHABLE_KEY
+    }
+
+    return render(request, "cart/cart.html", context)
 
 
 def addtocart(request, featureid):
@@ -105,7 +109,7 @@ def charge(request):
                 messages.success(
                     request,
                     'Thank you for your contribution, \
-                    keep an eye on the features to see \
+                    keep an eye on the Features page to see \
                     when they will begin development.')
 
                 request.session['cart'] = {}

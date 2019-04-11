@@ -4,29 +4,24 @@
 
 {% block content %}
 
-<div class="jumbotron jumbotron-fluid">
-    <div class="container">
 
+    <div class="container">
         {% include 'partials/_alerts.html' %}
 
-        <h3 class="text-center">My Bug Reports</h3>
+        <h1 class="display-4">My Bug Reports</h1>
         {% include 'partials/_bugs.html' %}
     </div>
-</div>
 
-<div class="jumbotron jumbotron-fluid">
+
     <div class="container">
-        <h3 class="text-center">My Feature Requests</h3>
+        <h1 class="display-4">My Feature Requests</h1>
         {% include 'partials/_features.html' %}
     </div>
-</div>
 
 
-<div class="jumbotron jumbotron-fluid">
     <div class="container">
-        <h3 class="text-center">My Comments</h3>
+        <h1 class="display-4">My Comments</h1>
         {% include 'partials/_comments.html' %}
     </div>
-</div>
 
 {% endblock %}

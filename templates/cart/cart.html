@@ -21,6 +21,7 @@
   {% include 'partials/_alerts.html' %}
 
   <div class="row">
+
     {% if cart_items %} {% for item in cart_items %}
 
     <div class="card w-100 cart-card">
@@ -63,12 +64,41 @@
           </div>
         </form>
       </div>
-    </div>
+    </div>  
 
     {% endfor %}
 
-    <a href="{% url 'checkout' %}" class="btn btn-info ml-auto">Checkout</a>
+  </div>
+  <div class="row">
 
+    <div class="card w-100 cart-card">
+      <div class="card-header">
+        <h3>Total Payment: &euro;{{ total }}</h3>
+      </div>
+      <div class="card-body">
+            <p class="card-text">If you are happy to contribute simply click Checkout and enter your card details to pay securely.</p>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+
+    <div class="ml-auto">
+      <!-- <a href="{% url 'checkout' %}" class="btn btn-info ml-auto">Checkout</a> -->
+      <form action="{% url 'charge' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="stripe_api_key" value="{{ key }}" />
+          <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+              data-key="{{ key }}"
+              data-description="Unicorn Attractor Contribution"
+              data-amount="{{total_in_cents}}"
+              data-locale="auto"
+              data-currency="eur">
+          </script>
+      </form>
+    </div>
+  </div>
+  
     {% else %}
 
     <div class="card w-100">
