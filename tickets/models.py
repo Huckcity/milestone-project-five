@@ -6,6 +6,7 @@ from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Ticket(models.Model):
     """
     Model for tickets, which accommodate for both bug reports and feature requests
@@ -33,19 +34,21 @@ class Ticket(models.Model):
                                 null=True,
                                 default=50.00)
     type = models.CharField(max_length=20, choices=TICKET_TYPE, blank=False)
-    status = models.CharField(max_length=20, choices=TICKET_STATUS, default='Pending')
+    status = models.CharField(
+        max_length=20, choices=TICKET_STATUS, default='Pending')
     created_on = models.DateTimeField(default=datetime.now)
 
     def __str__(self):
         return self.title
+
 
 class Contribution(models.Model):
     """
     Contributions model for tracking amounts committed to feature development
     """
 
-    userid = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    ticket = models.ForeignKey(Ticket, on_delete=models.DO_NOTHING)
+    userid = models.ForeignKey(User, on_delete=models.CASCADE)
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=5,
                                  decimal_places=2,
                                  blank=False)
@@ -54,13 +57,14 @@ class Contribution(models.Model):
     def __str__(self):
         return self.userid.username
 
+
 class Vote(models.Model):
     """
     Votes model for handling users upvoting bug reports
     """
 
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    ticket = models.ForeignKey(Ticket, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     voted_on = models.DateTimeField(default=datetime.now)
 
     def __str__(self):
