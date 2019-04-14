@@ -50,25 +50,33 @@
             <li {% if '/accounts/dashboard' == request.path %} class="nav-item active" {% else %} class="nav-item"
               {% endif %}>
               <a class="nav-link" href="{% url 'dashboard' %}">
-                <i class="fas fa-home"></i>
+                <i class="fas fa-home nav-icon"></i>
                 Dashboard
               </a>
             </li>
             <li {% if '/tickets/bugs' == request.path or '/tickets/bug/' in request.path %} class="nav-item active"
               {% else %} class="nav-item" {% endif %}>
               <a class="nav-link" href="{% url 'bugs' %}">
-                <i class="fas fa-bug"></i>
+                <i class="fas fa-bug nav-icon"></i>
                 Bugs
               </a>
             </li>
             <li {% if '/tickets/features' == request.path or '/tickets/feature/' in request.path %}
               class="nav-item active" {% else %} class="nav-item" {% endif %}>
               <a class="nav-link" href="{% url 'features' %}">
-                <i class="fas fa-award"></i>
+                <i class="fas fa-award nav-icon"></i>
                 Features
               </a>
             </li>
 
+            <li {% if '/blog/' == request.path or '/blog/' in request.path %}
+              class="nav-item active" {% else %} class="nav-item" {% endif %}>
+              <a class="nav-link" href="{% url 'blog' %}">
+                  <i class="fas fa-edit nav-icon"></i>
+                Blog
+              </a>
+            </li>
+<!-- 
             {% if user.is_staff %}
 
             <li class="nav-item">
@@ -78,13 +86,13 @@
               </a>
             </li>
 
-            {% endif %}
+            {% endif %} -->
 
             <li {% if '/accounts/logout' == request.path %} class="nav-item active" {% else %} class="nav-item"
               {% endif %}>
               <a class="nav-link" href="javascript:{document.getElementById('logout').submit()}">
                 Log Out
-                <i class="fas fa-sign-out-alt"></i>
+                <i class="fas fa-sign-out-alt nav-icon"></i>
               </a>
               <form action="{% url 'logout' %}" method="POST" id="logout">
                 {% csrf_token %}
@@ -95,17 +103,17 @@
           </ul>
 
           <ul class="navbar-nav ml-auto">
-
+            
             <li class="nav-item">
               <a class="nav-link" href="{% url 'editprofile' %}">
-                <i class="fas fa-cog"></i>
+                <i class="fas fa-cog nav-icon"></i>
                 Edit Profile
               </a>
             </li>
 
             <li class="nav-item">
               <a class="nav-link" href="{% url 'cart' %}">
-                <i class="fas fa-shopping-cart"></i>
+                <i class="fas fa-shopping-cart nav-icon"></i>
                 Cart - &euro;{{ total }}
               </a>
             </li>

@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
-#DEBUG = bool(os.environ.get("DEBUG", False))
+
 DEBUG = False
 
 # Get local environment vars from env.py if possible, otherwise assume we're in deployment and using Heroku vars
@@ -28,8 +28,6 @@ try:
     import env
 except ImportError:
     pass
-
-# DEBUG = bool(os.getenv("DEBUG"))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
@@ -48,7 +46,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django.contrib.sites',
     'crispy_forms',
     'pages',
     'accounts',
@@ -56,6 +53,7 @@ INSTALLED_APPS = [
     'comments',
     'storages',
     'cart',
+    'blog',
 ]
 
 MIDDLEWARE = [

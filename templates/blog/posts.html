@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us{% endblock %} 
+
+{% block content %}
+
+<div class="container">
+
+{% for post in posts %}
+    <div class="card cart-card">
+        <h4 class="card-header"><a href="{% url 'post' post.id %}">{{ post.title }}</a>
+        <small>published: {{ post.published_on }} by {{ post.author }}</small>
+        </h4>
+    <p class="card-body">{{ post.body|truncatechars:250 }}<a href="{% url 'post' post.id %}">Read More</a></p>
+
+    </div>
+{% endfor %}
+
+<a href="{% url 'addpost' %}" class="btn btn-info float-right">Add Post</a>
+
+</div>
+
+{% endblock %}

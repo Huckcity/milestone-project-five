@@ -22,7 +22,11 @@
                     </p>
                     {% if 'dashboard' in request.path %}
                     <small class="float-right font-weight-bold">
-                        <a href="{% url 'bug' bugid=comment.ticketid.id %}">View in context >></a>
+                        {% if comment.ticketid %}
+                        <a href="{% url 'bug' comment.ticketid.id %}">View in context >></a>
+                        {% else %}
+                        <a href="{% url 'post' comment.blog_post_id.id %}">View in context >></a>
+                        {% endif %}
                     </small>
                     {% endif %}
                 </div>
