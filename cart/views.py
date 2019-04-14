@@ -14,8 +14,13 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 def view_cart(request):
 
+    num_contribs = Contribution.objects.filter(userid=request.user.id).count()
+    discount = Decimal(num_contribs * 1.5) if Decimal(num_contribs * 1.5) <= 30 else Decimal(30)
+
     context = {
-        'key': settings.STRIPE_PUBLISHABLE_KEY
+        'key': settings.STRIPE_PUBLISHABLE_KEY,
+        'num_contribs': num_contribs,
+        'discount': discount
     }
 
     return render(request, "cart/cart.html", context)
@@ -74,6 +79,9 @@ def charge(request):
 
     if request.method == 'POST':
 
+        num_contribs = Contribution.objects.filter(userid=request.user.id).count()
+        discount = Decimal(num_contribs * 1.5) if Decimal(num_contribs * 1.5) <= 30 else Decimal(30)
+
         cart = request.session.get('cart', {})
         total_charge = 0
 
@@ -85,7 +93,7 @@ def charge(request):
         try:
 
             payment = stripe.Charge.create(
-                amount=int(total_charge*100),
+                amount=int(total_charge*100/discount),
                 currency='eur',
                 description='UA Feature Contribution',
                 source=request.POST['stripeToken']

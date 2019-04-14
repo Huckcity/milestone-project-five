@@ -123,7 +123,6 @@ def feature(request, featureid):
 
         for contrib in contributions:
             contrib_amount += contrib.amount
-            print(contrib_amount)
 
         # Determine percentage of goal met, or 100% if over goal amount
         # backslash allows for line break within logic to fix line too long error(pylint)

@@ -1,7 +1,7 @@
 from decimal import Decimal
 from django.shortcuts import get_object_or_404
-from django.contrib import messages
-from tickets.models import Ticket
+
+from tickets.models import Ticket, Contribution
 
 
 def cart_contents(request):
@@ -10,6 +10,9 @@ def cart_contents(request):
     """
 
     cart = request.session.get('cart', {})
+
+    num_contribs = Contribution.objects.filter(userid=request.user.id).count()
+    discount = Decimal(num_contribs * 1.5) if Decimal(num_contribs * 1.5) <= 30 else Decimal(30)
 
     cart_items = set()
     total = 0
@@ -20,4 +23,7 @@ def cart_contents(request):
         total += ticket.contrib_amount
         cart_items.add(ticket)
 
-    return {'cart_items': cart_items, 'total': total, 'total_in_cents':total*100}
+    total_in_cents = total*100
+    total_after_discount = total_in_cents - (total_in_cents*(discount/100))
+
+    return {'cart_items': cart_items, 'total': total, 'total_in_cents':total_after_discount}
