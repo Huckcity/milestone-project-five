@@ -78,6 +78,13 @@
               </a>
             </li>
 
+            <li {% if '/charts/' == request.path or '/charts/' in request.path %}
+              class="nav-item active" {% else %} class="nav-item" {% endif %}>
+              <a class="nav-link" href="{% url 'charts' %}">
+                  <i class="fas fa-chart-pie nav-icon"></i>
+                Stats
+              </a>
+            </li>
 
             <li {% if '/accounts/logout' == request.path %} class="nav-item active" {% else %} class="nav-item"
               {% endif %}>
@@ -206,6 +213,8 @@
 
   <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
 
+  {% block javascript %}
+  {% endblock %}
   
 </body>
 

@@ -92,8 +92,9 @@ def charge(request):
 
         try:
 
+            amount_owed = int(total_charge*100/discount) if discount > 0 else int(total_charge*100)
             payment = stripe.Charge.create(
-                amount=int(total_charge*100/discount),
+                amount=amount_owed,
                 currency='eur',
                 description='UA Feature Contribution',
                 source=request.POST['stripeToken']

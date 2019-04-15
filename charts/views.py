@@ -6,7 +6,8 @@ from django.shortcuts import render
 from django.db.models.functions import TruncDate
 from django.db.models import Sum, Count
 
-from tickets.models import Ticket
+from tickets.models import Ticket, Contribution
+from comments.models import Comment
 
 # Create your views here.
 def charts(request):
@@ -38,5 +39,39 @@ def type_data_url(request):
         }
     ]
         
+    return JsonResponse(list(data), safe=False)
+
+def average_feature_progress(request):
+
+    running_percent = 0
+
+    features = Ticket.objects.filter(type="Feature")
+
+    for feature in features:
+
+        contribs = Contribution.objects.filter(ticket=feature)
+
+        if contribs:
+            for contrib in contribs:
+
+                contrib_percent = (contrib.amount / feature.price) * 100 \
+                            if contrib.amount < feature.price else 100
+                running_percent += contrib_percent
+
+    average_contrib_percent = running_percent / len(features)
+
+    print(average_contrib_percent)
+
+    return JsonResponse(average_contrib_percent, safe=False)
+    
+def get_comment_data(request):
+
+    data = Comment.objects.all() \
+        .annotate(day=TruncDate('posted_on')) \
+        .values("day") \
+        .annotate(count_items=Count('id')) \
+        .order_by('day')
+    
     print(data)
+
     return JsonResponse(list(data), safe=False)
