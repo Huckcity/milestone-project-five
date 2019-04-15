@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'tickets/', include('tickets.urls')),
     url(r'cart/', include('cart.urls')),
     url(r'blog/', include('blog.urls')),
+    url(r'charts/', include('charts.urls')),
 ]
 #  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

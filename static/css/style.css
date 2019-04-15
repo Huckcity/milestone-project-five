@@ -167,3 +167,36 @@ h1, h2, h3, h4, h5, h6 {
 .progress-bar {
   color: rgb(66, 66, 66);
 }
+
+
+/**************** CHARTS STYLES *********************/
+
+#chart {
+  font: 12px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+  stroke-width: 2.5px;
+}
+
+.x.axis path {
+  stroke-width: 2.5px;
+}
+
+.line {
+  fill: none;
+  stroke: #17a2b8;
+  stroke-width: 4px;
+}
+
+.bar-chart {
+  background-color: #C7D9D9;
+}
+
+.bar {
+  fill: #17a2b8;
+}
