@@ -3,18 +3,22 @@ from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import render
 
+from django.db.models.functions import TruncDate
+from django.db.models import Sum, Count
+
 from tickets.models import Ticket
 
+# Create your views here.
 def charts(request):
     return render(request, 'charts/charts.html')
 
 def get_data(request):
 
     data = Ticket.objects.all() \
-        .extra(select={'day': connections[Ticket.objects.db] \
-        .ops.date_trunc_sql('day', 'created_on')}) \
-        .values('day') \
-        .annotate(count_items=Count('id'))
+        .annotate(day=TruncDate('created_on')) \
+        .values("day") \
+        .annotate(count_items=Count('id')) \
+        .order_by('day')
 
     return JsonResponse(list(data), safe=False)
 
@@ -33,5 +37,6 @@ def type_data_url(request):
             'count': num_features
         }
     ]
-
+        
+    print(data)
     return JsonResponse(list(data), safe=False)
