@@ -97,7 +97,7 @@ def logout(request):
     View for handling logout functionality, clears session and redirects to index
     """
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
 
         auth.logout(request)
         messages.success(request, 'Logged out')
@@ -128,14 +128,7 @@ def dashboard(request):
         for contrib in contributions:
             contrib_amount += contrib.amount
 
-        # Determine percentage of goal met, or 100% if over goal amount
-        # backslash allows for line break within logic to fix line too long error(pylint)
-        contrib_percent = (contrib_amount / single_feature.price) * 100 \
-                            if contrib_amount < single_feature.price else 100
-
-        single_feature.total_cost = single_feature.price
-        single_feature.current_contribs = contrib_amount
-        single_feature.contrib_percent = contrib_percent
+        single_feature.total_contrib_amount = contrib_amount
 
     context = {
         'bugs': users_bugs,

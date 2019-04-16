@@ -35,6 +35,7 @@ class Ticket(models.Model):
     type = models.CharField(max_length=20, choices=TICKET_TYPE, blank=False)
     status = models.CharField(max_length=20, choices=TICKET_STATUS, default='Pending')
     created_on = models.DateTimeField(default=datetime.now)
+    percent_complete = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title

@@ -2,7 +2,7 @@ from decimal import Decimal
 import stripe
 
 from django.conf import settings
-
+from django.db.models import Sum
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 
@@ -81,6 +81,7 @@ def charge(request):
 
         num_contribs = Contribution.objects.filter(userid=request.user.id).count()
         discount = Decimal(num_contribs * 1.5) if Decimal(num_contribs * 1.5) <= 30 else Decimal(30)
+        print('discount = ', discount)
 
         cart = request.session.get('cart', {})
         total_charge = 0
@@ -90,11 +91,17 @@ def charge(request):
             amount = cart[item]['contrib_amount']
             total_charge += Decimal(amount)
 
+        print('total charge = ', total_charge)
+        discount_amount = (total_charge/100)*discount if discount > 0 else total_charge
+        print('discount_amount = ', discount_amount)
+
+        amount_owed_after_discount = total_charge - discount_amount
+        print('amount_owed_after_discount = ', amount_owed_after_discount)
+
         try:
 
-            amount_owed = int(total_charge*100/discount) if discount > 0 else int(total_charge*100)
             payment = stripe.Charge.create(
-                amount=amount_owed,
+                amount=int(amount_owed_after_discount * 100),
                 currency='eur',
                 description='UA Feature Contribution',
                 source=request.POST['stripeToken']
@@ -111,9 +118,17 @@ def charge(request):
                     contribution = Contribution(
                         userid=user,
                         ticket=ticket,
-                        amount=amount)
+                        amount=amount_owed_after_discount)
 
                     contribution.save()
+
+                    all_contribs = Contribution.objects.filter(ticket=ticket).annotate(total_paid=Sum('amount'))
+
+                    all_contribs = all_contribs[0].total_paid
+
+                    ticket_percent_complete = (all_contribs / ticket.price) * 100
+                    ticket.percent_complete = ticket_percent_complete
+                    ticket.save()
 
                 messages.success(
                     request,

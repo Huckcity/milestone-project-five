@@ -4,10 +4,10 @@
         {% endif %}">
     <div class="progress-bar progress-bar-striped" 
             role="progressbar" 
-            style="width: {{ feature.contrib_percent|stringformat:'d' }}%; height: 25px" 
-            aria-valuenow="{{ feature.contrib_percent|stringformat:'d' }}" 
+            style="width: {{ feature.percent_complete|stringformat:'d' }}%; height: 25px" 
+            aria-valuenow="{{ feature.percent_complete|stringformat:'d' }}" 
             aria-valuemin="0" 
             aria-valuemax="{{ feature.price|stringformat:'d' }}">
-            <strong class="justify-content-center d-flex position-absolute w-100">&euro;{{ feature.current_contribs }} - {{ feature.contrib_percent|stringformat:'d' }}%</strong>
+            <strong class="justify-content-center d-flex position-absolute w-100">&euro;{% if feature.total_contrib_amount == None %} 0 {% else %} {{feature.total_contrib_amount|floatformat:-2 }} {% endif %} - {{ feature.percent_complete|floatformat }}%</strong>
     </div>
 </div>

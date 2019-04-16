@@ -6,6 +6,7 @@ Bugs/Features Lists
 Add Bug/Feature
 """
 from decimal import Decimal
+from django.db.models import Count, Sum
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
@@ -20,7 +21,7 @@ def bugs(request):
     """
     View for bug listsing page
     """
-    bug_set = Ticket.objects.all().filter(type='Bug')
+    bug_set = Ticket.objects.filter(type='Bug').annotate(num_votes=Count('vote')).order_by('-num_votes')
 
     for single_bug in bug_set:
 
@@ -43,24 +44,9 @@ def features(request):
     """
     View for feature listsing page
     """
-    all_features = Ticket.objects.all().filter(type='Feature')
 
-    for single_feature in all_features:
-
-        contributions = Contribution.objects.all().filter(ticket=single_feature)
-        contrib_amount = Decimal(0.00)
-
-        for contrib in contributions:
-            contrib_amount += contrib.amount
-
-        # Determine percentage of goal met, or 100% if over goal amount
-        # backslash allows for line break within logic to fix line too long error(pylint)
-        contrib_percent = (contrib_amount / single_feature.price) * 100 \
-                            if contrib_amount < single_feature.price else 100
-
-        single_feature.total_cost = single_feature.price
-        single_feature.current_contribs = contrib_amount
-        single_feature.contrib_percent = contrib_percent
+    all_features = Ticket.objects.filter(type='Feature').order_by('-percent_complete') \
+                    .annotate(total_contrib_amount=Sum('contribution__amount'))
 
     context = {
         'features': all_features
@@ -124,16 +110,7 @@ def feature(request, featureid):
         for contrib in contributions:
             contrib_amount += contrib.amount
 
-        # Determine percentage of goal met, or 100% if over goal amount
-        # backslash allows for line break within logic to fix line too long error(pylint)
-        contrib_percent = (contrib_amount / current_feature.price) * 100 \
-                           if contrib_amount < current_feature.price else 100
-
-
-
-        current_feature.total_cost = current_feature.price
-        current_feature.current_contribs = contrib_amount
-        current_feature.contrib_percent = contrib_percent
+        current_feature.total_contrib_amount = contrib_amount
 
         context = {
             'feature': current_feature,
