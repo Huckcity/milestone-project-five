@@ -82,6 +82,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
                 'cart.context.cart_contents',
             ],
         },
@@ -156,11 +157,13 @@ DEFAULT_FILE_STORAGE = 'storage_backends.MediaStorage'
 if not DEBUG:
     STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
     STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-    MEDIA_ROOT = os.path.join(AWS_S3_CUSTOM_DOMAIN, 'media')
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(AWS_S3_CUSTOM_DOMAIN, 'media/')
 else:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
     STATIC_URL = '/static/'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 ### Including for bootstrap form styling
 

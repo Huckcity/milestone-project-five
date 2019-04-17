@@ -7,15 +7,16 @@
         {% for bug in bugs|dictsortreversed:"num_votes" %}
 
         <a href="{% url 'bug' bug.id %}"
-            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-            <span><b>#{{ bug.id }}</b> - <b>{{ bug.title }}</b></span>
-            <span class="">
-                <span class="badge badge-dark">{{ bug.num_votes}}
-                        vote{% if bug.num_votes > 1 or bug.num_votes == 0 %}s{%endif%}</span>
+            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center flex-wrap ticket-list-item">
 
-                <span class="badge badge-primary">{{ bug.num_comments}}
-                    comment{% if bug.num_comments > 1 or bug.num_comments == 0 %}s{%endif%}</span>
-            </span>
+            <div class="col-sm-12 col-md-8"><b>#{{ bug.id }}</b> - <b>{{ bug.title }}</b></div>
+            <div class="ml-auto bug-badge-container">
+                <div class="badge badge-dark">{{ bug.num_votes}}
+                        vote{% if bug.num_votes > 1 or bug.num_votes == 0 %}s{%endif%}</div>
+
+                <div class="badge badge-primary">{{ bug.num_comments}}
+                    comment{% if bug.num_comments > 1 or bug.num_comments == 0 %}s{%endif%}</div>
+            </div>
         </a>
 
         {% endfor %}

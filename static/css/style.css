@@ -137,6 +137,25 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 0;
 }
 
+.ticket-list-item {
+  padding: 20px;
+}
+
+.bug-badge-container {
+  margin-top: 15px;
+}
+
+@media screen and (max-width: 767px) {
+  .footer-title {
+    text-align: center;
+  }
+
+  .footer-links {
+    text-align: right;
+  }
+}
+
+
 /********** OTHER BOOTSTRAP OVERWRITES **************/
 
 .jumbotron {
@@ -166,6 +185,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .progress-bar {
   color: rgb(66, 66, 66);
+}
+
+@media screen and (max-width: 767px) {
+  .progress {
+    width: 80%;
+    margin: 0 auto;
+  }
 }
 
 

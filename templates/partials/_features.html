@@ -8,8 +8,8 @@
 
 
             <a href="{% url 'feature' feature.id %}"
-                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                <span><b>#{{ feature.id }}</b> - <b>{{ feature.title }}</b></span>
+                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center flex-wrap ticket-list-item">
+                <div class="col-sm-12 col-md-8"><b>#{{ feature.id }}</b> - <b>{{ feature.title }}</b></div>
                 
                 {% include 'partials/_progressbar.html' %}
             </a>

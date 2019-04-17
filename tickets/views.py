@@ -12,6 +12,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from comments.models import Comment
+from django.http import JsonResponse
 
 from .models import Ticket, Contribution, Vote
 from .forms import AddBug, AddFeature
@@ -126,7 +127,7 @@ def addbug(request):
     """
     if request.method == "POST":
 
-        form = AddBug(request.POST)
+        form = AddBug(request.POST, request.FILES)
         if form.is_valid():
 
             ticket = form.save(commit=False)
@@ -195,7 +196,7 @@ def editbug(request, ticketid):
 
     ticket = get_object_or_404(Ticket, pk=ticketid)
 
-    form = AddBug(request.POST or None, instance=ticket)
+    form = AddBug(request.POST or None, request.FILES or None, instance=ticket)
     if form.is_valid():
         form.save()
 
@@ -217,3 +218,20 @@ def editfeature(request, ticketid):
         return redirect('feature', ticketid)
 
     return render(request, 'tickets/editfeature.html', {'form':form, 'ticketid':ticketid})
+
+def updateticketstatus(request, ticketid):
+
+    if request.method == 'POST' and request.is_ajax():
+
+        try:
+            current_bug = Ticket.objects.get(pk=ticketid)
+            current_bug.status = request.POST['ticket_status']
+            current_bug.save()
+
+            return JsonResponse({'status':'Success', 'msg': 'Status Updated!'})
+
+        except Ticket.DoesNotExist:
+
+            return JsonResponse({'status':'Fail', 'msg': 'Object does not exist'})
+    else:
+        return JsonResponse({'status':'Fail', 'msg':'Not a valid request'})
