@@ -14,7 +14,7 @@ Users can add contributions to their cart, and checkout via secure card payment 
 
 ## Live Demo
 
-[Visit Unicorn Attractor Demo](https://milestone-project-five.herokuapp.com/).
+[Visit Unicorn Attractor Demo](https://milestone-project-five.herokuapp.com/)
 
 Admin Login: admin
 
@@ -98,9 +98,25 @@ Also feel free to register another account.
 
 ### Responsive testing and code validation
 
+Cross browser testing has been performed to the best of my ability with available devices. The site is responsive and employs clean markup. 
+The stats page is responsive on page load only, as it calculates based on container size at runtime, efforts were made to correct this but it will remain a stretch goal for now.
 
+In terms of browser compatibility and display, I am relatively happy with the sites performance across multiple devices as follows:
+
+- Desktop 24" 1920x1080 display
+- Macbook Pro 15"
+- iPad 4 9.7"
+- Xiaomi Air 13" (Ubuntu)
+- Honor Play 6.3"
 
 ### Automated testing
+
+The automated testing on this project was implemented with Django's `unittest` module. There are limitless tests one could run on such a project, and I had to leave the remaining tests as a stretch goal, but have encluded enough to demonstrate a good working knowledge of the process.
+
+- PAGES
+    - Test Home page displays correctly via HTML status code 200
+    - Test Register page displays correctly via HTML status code 200
+    - Test Login page displays correctly via HTML status code 200
 
 - Accounts
     - Test user login form with good credentials
@@ -109,5 +125,124 @@ Also feel free to register another account.
     - Test user registration form with no email
     - Test user registration form with mismatched passwords
 
-- 
+- Tickets
+    - Test a user can create a ticket of type Bug Report
+    - Test a user can create a ticket of type Feature Request
+    - Test a ticket cannot be created without a default type
+    - Test a ticket created will have the default status of Pending
+
+All tests are automated and run via Travis Continuos Integration service. Due to the nature of TravisCI, many extra commits were required to debug it, from version compatibility issues such as the Django module 'six' being incompatible with certain Django versions to TravisCI themselves having a poor integration of the S3 'boto' module, which is set silently in the background of project setup.
+
+Tests all pass and are tracked successfully on the Github page for this project.
+
+Each apps tests are help in its own `tests.py` file and are run collectively with `python manage.py test`
+
+# Manual Testing
+
+This project has been through extensive manual testing all throughout it's development. A brief outline of manual tests performed:
+- Tested all links from all pages
+- Tested all forms for required field validation
+- Tested all pages that require login to view
+- Cart items stored across site, and cleared upon logout
+- Cart items updateable and removeable
+- Checkout figures charged correctly, and discounts applied correctly
+
+
+## Deployment
+
+In order to deploy the project you can follow these steps: 
+
+### Local Deployment
+
+The following assumes you have git and python preinstalled and configured to run terminal commands.
+
+1. Make the directory you want to use and cd into it
+
+![alt text](https://i.gyazo.com/d9449f9444563ee72fa21631c4ad1d0d.png)
+
+2. Clone the repo into your directory
+
+![alt text](https://i.gyazo.com/7c2de735df31fbaeab1c51fa7377a04d.png)
+
+3. Change into project directory
+
+![alt text](https://i.gyazo.com/87781ed35faff3603c6b3676e094c94d.png)
+
+4. Create your virtual environment
+
+![alt text](https://i.gyazo.com/9c9d80cae3cc11f61c05189654d6d7fa.png)
+
+5. Start virtual environment
+
+![alt text](https://i.gyazo.com/272a4fda3255b866e9900a29b2381983.png)
+
+6. Install the dependencies from requirements.txt
+
+![alt text](https://i.gyazo.com/62d93a2daf85062d74bbda9330200ed9.png)
+
+7. Set up environment vars:
+
+Create a local file in the root directory and set the following vars to your details
+If you leave the DATABASE_URL commented, the database will use SQLite by default, which is preferred for dev deployment
+
+- os.environ.setdefault("SECRET_KEY", "")
+- os.environ.setdefault("SENDGRID_API_KEY", "")
+- os.environ.setdefault("SENDGRID_USERNAME", "")
+- os.environ.setdefault("SENDGRID_PASSWORD", "")
+- os.environ.setdefault("AWS_STORAGE_BUCKET_NAME", "")
+- os.environ.setdefault("AWS_ACCESS_KEY_ID", "")
+- os.environ.setdefault("AWS_SECRET_ACCESS_KEY", "")
+- os.environ.setdefault("STRIPE_PUBLISHABLE_KEY", "")
+- os.environ.setdefault("STRIPE_SECRET_KEY", "")
+- #os.environ.setdefault("DATABASE_URL", ""
+
+8. Make database migrations / migrate
+
+![alt text](https://i.gyazo.com/4dff71ad331ff45933182b2ea93be894.png)
+
+9. Collect static
+
+![alt text](https://i.gyazo.com/597cfb225a01338688b30570a76ad9c4.png)
+
+10. If you want to use the site with some preloaded data, this step is optional. If you don't perform this step, you will need to create a super user in order to log
+in. You can do this with `python manage.py createsuperuser` and enter the requested details
+
+```python
+python manage.py shell
+from django.contrib.contenttypes.models import ContentType
+ContentType.objects.all().delete()
+quit()
+python manage.py loaddata db.json
+```
+
+![alt text](https://i.gyazo.com/b43459fb26f61908e111a86d7eb61f28.png)
+
+11. Edit `settings.py` and set `DEBUG = True` for local testing
+
+12. You shoud now be able to run the project with `python manage.py runserver`
+
+To continue deployment on to Heroku, follow these steps:
+
+
+
+
+Git init, add heroku app as remote
+
+![alt text](https://i.gyazo.com/1b47ec221a5c2c364ebe3de0c5f61e6b.png)
+
+then git commit -m "Initial commit"
+git push heroku master
+
+set secret key and disable_collectstatic
+
+![alt text](https://i.gyazo.com/1199df45687bf466ba3d6a4e1dbcf9fc.png)
+
+Update allowed hosts and set DEBUG = False
+
+create super user on heroku
+
+![alt text](https://i.gyazo.com/d91d262c26bda83f6b527501ab8b1e7e.png)
+
+
+At this point, the app should be deployed successfully to Heroku, although without configuring an S3 storage bucket you will have no static files. These steps are outside the scope of this readme. See https://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html for more info.
 

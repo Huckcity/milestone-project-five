@@ -139,6 +139,7 @@ def dashboard(request):
 
     return render(request, 'accounts/dashboard.html', context=context)
 
+@login_required
 def editprofile(request):
 
     args = {}
@@ -156,6 +157,7 @@ def editprofile(request):
 
         return render(request, 'accounts/editprofile.html', args)
 
+@login_required
 def changepassword(request):
 
     args = {}
