@@ -197,6 +197,7 @@ def addvote(request, bugid):
             user = request.user
             ticket = get_object_or_404(Ticket, pk=bugid)
             existing_vote = Vote.objects.all().filter(user=user, ticket=ticket).count()
+            total_votes = Vote.objects.all().filter(ticket=ticket).count()
 
             if existing_vote > 0:
                 return JsonResponse({
@@ -209,7 +210,7 @@ def addvote(request, bugid):
             return JsonResponse({
                 'status':'Success',
                 'msg': 'Upvoted!',
-                'numVotes': existing_vote+1
+                'numVotes': total_votes+1
                 })
 
         except Ticket.DoesNotExist:
