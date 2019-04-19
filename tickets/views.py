@@ -173,23 +173,50 @@ def addvote(request, bugid):
     """
     Upvote handler, to be called asynchronously
     """
-    if request.method == "POST":
+    # if request.method == "POST":
 
-        user = request.user
-        ticket = get_object_or_404(Ticket, pk=bugid)
+    #     user = request.user
+    #     ticket = get_object_or_404(Ticket, pk=bugid)
 
-        existing_vote = Vote.objects.all().filter(user=user, ticket=ticket).count()
-        print(existing_vote)
+    #     existing_vote = Vote.objects.all().filter(user=user, ticket=ticket).count()
+    #     print(existing_vote)
 
-        if existing_vote > 0:
-            messages.error(request, 'You have already upvoted this bug!')
-            return redirect('/tickets/bug/'+bugid)
-        else:
+    #     if existing_vote > 0:
+    #         messages.error(request, 'You have already upvoted this bug!')
+    #         return redirect('/tickets/bug/'+bugid)
+    #     else:
+    #         vote = Vote(user=user, ticket=ticket)
+    #         vote.save()
+
+    #         messages.success(request, 'Thanks for your vote.')
+    #         return redirect('/tickets/bug/'+bugid)
+
+    if request.method == 'POST' and request.is_ajax():
+
+        try:
+            user = request.user
+            ticket = get_object_or_404(Ticket, pk=bugid)
+            existing_vote = Vote.objects.all().filter(user=user, ticket=ticket).count()
+
+            if existing_vote > 0:
+                return JsonResponse({
+                    'status':'Fail', 'msg': 'You have already upvoted this ticket!'
+                    })
+
             vote = Vote(user=user, ticket=ticket)
             vote.save()
 
-            messages.success(request, 'Thanks for your vote.')
-            return redirect('/tickets/bug/'+bugid)
+            return JsonResponse({
+                'status':'Success',
+                'msg': 'Upvoted!',
+                'numVotes': existing_vote+1
+                })
+
+        except Ticket.DoesNotExist:
+
+            return JsonResponse({'status':'Fail', 'msg': 'Object does not exist'})
+    else:
+        return JsonResponse({'status':'Fail', 'msg':'Not a valid request'})
 
 @login_required
 def editbug(request, ticketid):

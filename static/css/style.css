@@ -114,6 +114,29 @@ h1, h2, h3, h4, h5, h6 {
   text-align: right;
 }
 
+
+.ticket-list-item {
+  padding: 20px;
+}
+
+.bug-badge-container {
+  margin-top: 15px;
+}
+
+@media screen and (max-width: 767px) {
+  .footer-title {
+    text-align: center;
+  }
+
+  .footer-links {
+    text-align: right;
+  }
+}
+
+.bug-image {
+  max-width: 300px;
+}
+
 /****************BOOTSTRAP CARD OVERWRITES************************/
 
 .card {
@@ -137,23 +160,6 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 0;
 }
 
-.ticket-list-item {
-  padding: 20px;
-}
-
-.bug-badge-container {
-  margin-top: 15px;
-}
-
-@media screen and (max-width: 767px) {
-  .footer-title {
-    text-align: center;
-  }
-
-  .footer-links {
-    text-align: right;
-  }
-}
 
 
 /********** OTHER BOOTSTRAP OVERWRITES **************/
