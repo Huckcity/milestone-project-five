@@ -60,8 +60,6 @@ def average_feature_progress(request):
 
     average_contrib_percent = running_percent / len(features)
 
-    print(average_contrib_percent)
-
     return JsonResponse(average_contrib_percent, safe=False)
     
 def get_comment_data(request):
@@ -71,7 +69,5 @@ def get_comment_data(request):
         .values("day") \
         .annotate(count_items=Count('id')) \
         .order_by('day')
-    
-    print(data)
 
     return JsonResponse(list(data), safe=False)

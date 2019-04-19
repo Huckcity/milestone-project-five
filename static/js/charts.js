@@ -1,7 +1,9 @@
+var margin = { top: 20, right: 30, bottom: 70, left: 30 },
+    $container = $('.chart-container'),
+    width = $container.width() - margin.left - margin.right,
+    height = $container.height();
+
 function getData(tickets_data_url) {
-  var margin = { top: 20, right: 20, bottom: 30, left: 50 },
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
 
   var parseDate = d3.time.format("%Y-%m-%d").parse; // for dates like "2014-01-01"
   //var parseDate = d3.time.format("%Y-%m-%dT00:00:00Z").parse;  // for dates like "2014-01-01T00:00:00Z"
@@ -80,10 +82,7 @@ function getData(tickets_data_url) {
 }
 
 function getTicketTypeData(type_data_url) {
-  // set the dimensions of the canvas
-  var margin = { top: 20, right: 20, bottom: 70, left: 40 },
-    width = 600 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
+
 
   // set the ranges
   var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.05);
@@ -272,9 +271,7 @@ function featureProgress(average_feature_progress) {
 }
 
 function commentData(get_comment_data) {
-  var margin = { top: 20, right: 20, bottom: 30, left: 50 },
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+
 
   var parseDate = d3.time.format("%Y-%m-%d").parse; // for dates like "2014-01-01"
   //var parseDate = d3.time.format("%Y-%m-%dT00:00:00Z").parse;  // for dates like "2014-01-01T00:00:00Z"

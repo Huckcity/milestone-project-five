@@ -43,13 +43,17 @@ Also feel free to register another account.
     - The user has a cart, which will track and hold any contributions the user wishes to make to feature requests
     - The user can log out at any time, though this will empty any items currently in the cart
 
+- Tickets
+    - Users can only edit their own submissions, and staff/admins can edit any ticket
+    - All tickets have a comment section where users can post and relevant information or discussion on the ticket.
+
 - Bugs
     - Bug tickets can be added by any registered user
     - Bug reports require a title, decription and optionally a URL to the place they found the bug, or an image of the bug if a screenshot was taken for example
     - Bugs are tracked and any user can upvote a bug to indicate that they also have the issue
     - A bug can only be upvoted once by each user, to keep an accurate overview of the number of users suffereing from a given issue
     - An administrator can edit the bug, and set the status to reflect it's current state i.e. Pending, In Progress or Complete
-    - Users can comment on any bug reports with relevant comments and information
+
 
 
 - Features
@@ -57,7 +61,6 @@ Also feel free to register another account.
     - Users can contribute to the development cost by inserting an amount to contribute, and adding the item to the cart
     - The features contribution progress is automatically tracked and updated in a progress bar as users contribute
     - Users receive a discount relating to the number of previous contributions made at a rate of 1.5% up to a maximum of 30%
-    - All tickets have a comment section where users can post and relevant information or discussion on the ticket.
 
 - Blog
     - Users can create blog posts with any content they feel relevant
