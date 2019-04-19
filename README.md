@@ -182,8 +182,8 @@ The following assumes you have git and python preinstalled and configured to run
 
 7. Set up environment vars:
 
-Create a local file in the root directory and set the following vars to your details
-If you leave the DATABASE_URL commented, the database will use SQLite by default, which is preferred for dev deployment
+Create a local file in the root directory and set the following vars to your details.
+If you leave the DATABASE_URL commented, the database will use SQLite by default, which is preferred for development.
 
 - os.environ.setdefault("SECRET_KEY", "")
 - os.environ.setdefault("SENDGRID_API_KEY", "")
@@ -221,25 +221,27 @@ python manage.py loaddata db.json
 
 12. You shoud now be able to run the project with `python manage.py runserver`
 
-To continue deployment on to Heroku, follow these steps:
+### To continue deployment on to Heroku, follow these steps:
 
+Firstly, create a new app in Heroku. I completed this step through the website, but you can also do this via the command line with `heroku create`
 
-
-
-Git init, add heroku app as remote
+Initialise a git repository in your local directory, add
 
 ![alt text](https://i.gyazo.com/1b47ec221a5c2c364ebe3de0c5f61e6b.png)
 
-then git commit -m "Initial commit"
-git push heroku master
+Then:
 
-set secret key and disable_collectstatic
+`git commit -m "Initial commit"`
+
+`git push heroku master`
+
+Next, we must set SECRET_KEY and disble collectstatic with environment variables:
 
 ![alt text](https://i.gyazo.com/1199df45687bf466ba3d6a4e1dbcf9fc.png)
 
-Update allowed hosts and set DEBUG = False
+At this point, the site is deployed but will not display until we update allowed hosts, and we should now set DEBUG = False in settings.py
 
-create super user on heroku
+Lastly, we need to create super user in order to log in to the app
 
 ![alt text](https://i.gyazo.com/d91d262c26bda83f6b527501ab8b1e7e.png)
 
