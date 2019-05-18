@@ -29,13 +29,16 @@ def contact(request):
             try:
                 send_mail(subject, message, email, ['adam.p.gibbons@gmail.com'])
                 messages.success(request, 'Thanks for your enquiry, we\'ll get back to you soon!')
+                form = ContactForm()
+                return redirect("index")
             except BadHeaderError:
                 messages.error(request, 'Thanks for your enquiry!')
-            return redirect('index')
+                return redirect("index")
 
-    else:
+        messages.error(request, 'You must complete all form fields to submit an enquiry!')
+        return redirect("index")
 
-        return redirect('index')
+    return redirect('index')
 
 def login(request):
 

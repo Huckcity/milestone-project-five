@@ -30,28 +30,32 @@
       </div>
 
       <div class="card-body">
-        <h5 class="card-title">
-          <span class="d-inline">Contribution Amount:</span>
-          <form
-            action="{% url 'updatecart' item.id %}"
-            method="POST"
-            class="form-inline d-inline"
-          >
-            {% csrf_token %}
-            <span class="d-inline">&euro;</span>
-            <input
-              class="form-control"
-              type="number"
-              min="1"
-              step="any"
-              name="contribution_amount"
-              value="{{ item.contrib_amount }}"
-            />
-            <button type="submit" class="btn btn-primary">Update Amount</button>
-          </form>
-        </h5>
-        <h5 class="card-title">Feature Details:</h5>
-        <p class="card-text">{{ item.description }}</p>
+        <h5 class="card-title">Contribution Amount:</h5>
+          <div>
+            <form
+              action="{% url 'updatecart' item.id %}"
+              method="POST"
+              class="form-inline d-inline"
+            >
+              {% csrf_token %}
+              <span class="d-inline">&euro;</span>
+              <input
+                class="form-control"
+                type="number"
+                min="1"
+                step="any"
+                name="contribution_amount"
+                value="{{ item.contrib_amount }}"
+                required
+              />
+              <button type="submit" class="btn btn-primary">Update Amount</button>
+            </form>
+          </div>
+
+        <div>
+          <h5 class="card-title">Feature Details:</h5>
+          <p class="card-text">{{ item.description }}</p>
+        </div>
 
         <form
           action="{% url 'removefromcart' item.id %}"

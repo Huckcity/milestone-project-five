@@ -60,7 +60,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    ### Whitenoise
+    # Whitenoise
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -104,7 +104,7 @@ else:
         }
     }
 
-if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing and django-coverage
+if 'test' in sys.argv or 'test_coverage' in sys.argv:  # Covers regular testing and django-coverage
     DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
 
 # Password validation
@@ -169,11 +169,11 @@ else:
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
-### Including for bootstrap form styling
+# Including for bootstrap form styling
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-### Settings for using Django's built in messages functionality
+# Settings for using Django's built in messages functionality
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
@@ -181,7 +181,7 @@ MESSAGE_TAGS = {
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
-### Email config, using Sendgrid as development example
+# Email config, using Sendgrid as development example
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
@@ -191,7 +191,7 @@ EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-### Stripe Config
+# Stripe Config
 
 STRIPE_PUBLISHABLE_KEY = os.environ.get("STRIPE_PUBLISHABLE_KEY")
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")

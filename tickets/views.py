@@ -18,15 +18,18 @@ from .models import Ticket, Contribution, Vote
 from .forms import AddBug, AddFeature
 
 
+@login_required
 def bugs(request):
     """
     View for bug listsing page
     """
-    bug_set = Ticket.objects.filter(type='Bug').annotate(num_votes=Count('vote')).order_by('-num_votes')
+    bug_set = Ticket.objects.filter(type='Bug').annotate(
+        num_votes=Count('vote')).order_by('-num_votes')
 
     for single_bug in bug_set:
 
-        single_bug.num_comments = Comment.objects.all().filter(ticketid=single_bug.pk).count()
+        single_bug.num_comments = Comment.objects.all().filter(
+            ticketid=single_bug.pk).count()
         single_bug.num_votes = Vote.objects.all().filter(ticket=single_bug.pk).count()
 
     paginator = Paginator(bug_set, 5)
@@ -41,13 +44,15 @@ def bugs(request):
 
     return render(request, 'tickets/bugs.html', context)
 
+
+@login_required
 def features(request):
     """
     View for feature listsing page
     """
 
     all_features = Ticket.objects.filter(type='Feature').order_by('-percent_complete') \
-                    .annotate(total_contrib_amount=Sum('contribution__amount'))
+        .annotate(total_contrib_amount=Sum('contribution__amount'))
 
     context = {
         'features': all_features
@@ -55,6 +60,8 @@ def features(request):
 
     return render(request, 'tickets/features.html', context)
 
+
+@login_required
 def bug(request, bugid):
     """
     View for single bug, also handles adding comments to bug
@@ -64,6 +71,10 @@ def bug(request, bugid):
         userid = request.user
         comment = request.POST['comment']
         ticket = get_object_or_404(Ticket, pk=bugid)
+
+        if comment == '':
+            messages.error(request, 'Comment message is required.')
+            return redirect('/tickets/bug/'+bugid)
 
         comment = Comment(userid=userid, comment=comment, ticketid=ticket)
         comment.save()
@@ -80,11 +91,13 @@ def bug(request, bugid):
         context = {
             'bug': current_bug,
             'comments': comments,
-            'votes' : votes
+            'votes': votes
         }
 
         return render(request, 'tickets/bug.html', context)
 
+
+@login_required
 def feature(request, featureid):
     """
     View for single feature, also handles adding comments to feature
@@ -94,6 +107,10 @@ def feature(request, featureid):
         userid = request.user
         comment = request.POST['comment']
         ticket = get_object_or_404(Ticket, pk=featureid)
+
+        if comment == '':
+            messages.error(request, 'Comment message is required.')
+            return redirect('/tickets/feature/'+featureid)
 
         comment = Comment(userid=userid, comment=comment, ticketid=ticket)
         comment.save()
@@ -120,6 +137,7 @@ def feature(request, featureid):
 
         return render(request, 'tickets/feature.html', context)
 
+
 @login_required
 def addbug(request):
     """
@@ -138,11 +156,13 @@ def addbug(request):
             messages.success(request, 'Your bug has been logged successfully.')
             return redirect('bug', bugid=ticket.pk)
 
-    else:
+        messages.error(request, 'You must complete all required fields.')
+        return redirect('addbug')
 
-        form = AddBug()
+    form = AddBug()
 
-    return render(request, 'tickets/addbug.html', {'form':form})
+    return render(request, 'tickets/addbug.html', {'form': form})
+
 
 @login_required
 def addfeature(request):
@@ -159,37 +179,25 @@ def addfeature(request):
             ticket.type = "Feature"
             ticket.save()
 
-            messages.success(request, 'Your feature request has been logged successfully.')
+            messages.success(
+                request, 'Your feature request has been logged successfully.')
             return redirect('feature', featureid=ticket.pk)
+
+        messages.error(request, 'You must complete all required fields.')
+        return redirect('addfeature')
 
     else:
 
         form = AddFeature()
 
-    return render(request, 'tickets/addfeature.html', {'form':form})
+    return render(request, 'tickets/addfeature.html', {'form': form})
+
 
 @login_required
 def addvote(request, bugid):
     """
     Upvote handler, to be called asynchronously
     """
-    # if request.method == "POST":
-
-    #     user = request.user
-    #     ticket = get_object_or_404(Ticket, pk=bugid)
-
-    #     existing_vote = Vote.objects.all().filter(user=user, ticket=ticket).count()
-    #     print(existing_vote)
-
-    #     if existing_vote > 0:
-    #         messages.error(request, 'You have already upvoted this bug!')
-    #         return redirect('/tickets/bug/'+bugid)
-    #     else:
-    #         vote = Vote(user=user, ticket=ticket)
-    #         vote.save()
-
-    #         messages.success(request, 'Thanks for your vote.')
-    #         return redirect('/tickets/bug/'+bugid)
 
     if request.method == 'POST' and request.is_ajax():
 
@@ -201,23 +209,24 @@ def addvote(request, bugid):
 
             if existing_vote > 0:
                 return JsonResponse({
-                    'status':'Fail', 'msg': 'You have already upvoted this ticket!'
-                    })
+                    'status': 'Fail', 'msg': 'You have already upvoted this ticket!'
+                })
 
             vote = Vote(user=user, ticket=ticket)
             vote.save()
 
             return JsonResponse({
-                'status':'Success',
+                'status': 'Success',
                 'msg': 'Upvoted!',
                 'numVotes': total_votes+1
-                })
+            })
 
         except Ticket.DoesNotExist:
 
-            return JsonResponse({'status':'Fail', 'msg': 'Object does not exist'})
+            return JsonResponse({'status': 'Fail', 'msg': 'Object does not exist'})
     else:
-        return JsonResponse({'status':'Fail', 'msg':'Not a valid request'})
+        return JsonResponse({'status': 'Fail', 'msg': 'Not a valid request'})
+
 
 @login_required
 def editbug(request, ticketid):
@@ -231,7 +240,8 @@ def editbug(request, ticketid):
         messages.success(request, 'Changes saved!')
         return redirect('bug', ticketid)
 
-    return render(request, 'tickets/editbug.html', {'form':form, 'ticketid':ticketid})
+    return render(request, 'tickets/editbug.html', {'form': form, 'ticketid': ticketid})
+
 
 @login_required
 def editfeature(request, ticketid):
@@ -245,7 +255,8 @@ def editfeature(request, ticketid):
         messages.success(request, 'Changes saved!')
         return redirect('feature', ticketid)
 
-    return render(request, 'tickets/editfeature.html', {'form':form, 'ticketid':ticketid})
+    return render(request, 'tickets/editfeature.html', {'form': form, 'ticketid': ticketid})
+
 
 def updateticketstatus(request, ticketid):
 
@@ -256,10 +267,10 @@ def updateticketstatus(request, ticketid):
             current_bug.status = request.POST['ticket_status']
             current_bug.save()
 
-            return JsonResponse({'status':'Success', 'msg': 'Status Updated!'})
+            return JsonResponse({'status': 'Success', 'msg': 'Status Updated!'})
 
         except Ticket.DoesNotExist:
 
-            return JsonResponse({'status':'Fail', 'msg': 'Object does not exist'})
+            return JsonResponse({'status': 'Fail', 'msg': 'Object does not exist'})
     else:
-        return JsonResponse({'status':'Fail', 'msg':'Not a valid request'})
+        return JsonResponse({'status': 'Fail', 'msg': 'Not a valid request'})

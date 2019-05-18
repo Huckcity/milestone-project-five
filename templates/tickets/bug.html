@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Bugs{% endblock %}
 
@@ -6,7 +7,7 @@
 
 <div class="container">
     
-    <nav aria-label="breadcrumb">
+    <nav aria-label="breadcrumb" class="breadcrumb-container">
         <ol class="breadcrumb">
             <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'dashboard' %}">Dashboard</a></li>
             <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'bugs' %}">Bugs</a></li>
@@ -26,6 +27,7 @@
 
                 <span>
                     {{ bug.title }}
+                    <br>
                     <small class="text-muted"> posted on {{ bug.created_on }} by {{ bug.userid.username }}</small>
                 </span>
                 
@@ -47,13 +49,34 @@
             
             <div class="card-body">
                 
-                <div class="bug-details-item">
-                    <h5 class="card-title">Details</h5>
-                    <p class="details-body">{{ bug.description }}</p>
+            <div class="row">
+                <div class="col-sm-12 col-md-7">
+                    <div class="col bug-details-item">
+                        <h5 class="card-title">DETAILS</h5>
+                        <p class="details-body">{{ bug.description }}</p>
+                    </div>
+
+                    
+                    <div class="col bug-details-item">
+                        <h5 class="card-title">IMAGE</h5>
+                        
+                        {% if bug.image %}
+                            <img src="{{ bug.image.url }}" class="img-thumbnail bug-thumbnail" onclick="openImage('{{ bug.image.url }}')">
+                            <div id="image-modal" class="image-modal">
+                                <div>
+                                    <img class="image-modal-content" id="bug-image">
+                                </div>
+                            </div>
+                        {% else %}
+                            <img src="{% static 'images/noimage.png' %}" class="img-thumbnail">
+                        {% endif %}
+                        
+                    </div>
                 </div>
-                
-                <div class="bug-details-item">
-                    <h6 class="card-title">URL:
+
+                <div class="col bug-details-right">
+                    <div class="col bug-details-item">
+                        <h5 class="card-title">URL</h5>
                         <span class="card-text">
                             {% if bug.url %}
                                 <a href="{{ bug.url }}" target="_blank">{{ bug.url }}</a>
@@ -61,67 +84,39 @@
                                 None
                             {% endif %}
                         </span>
-                    </h6>
-                </div>
-                
-                <div class="bug-details-item">
+                    </div>
                     
-                    {% if user.is_staff %}
+                    <div class="col bug-details-item">
 
-                        <form action="POST">
-                                                    
-                            <h6 class="card-title">Status
-                                <select name="ticket_status" onchange="changeTicketStatus(this.value, '{{ bug.id }}', '{{ csrf_token }}')">
-                                    <option value="Pending" {% if bug.status == "Pending" %}selected {% endif %}>Pending</option>
-                                    <option value="In Progress" {% if bug.status == "In Progress" %}selected {% endif %}>In Progress</option>
-                                    <option value="Complete" {% if bug.status == "Complete" %}selected {% endif %}>Complete</option>
-                                </select>
-                                <span id="statusCheck" class="display-inline"></span>
-                            </h6>
-                            
+                        <h5 class="card-title">STATUS</h5>
+                        
+                        {% if bug.status == "Pending" %}
+                            <span class="badge badge-primary">{{ bug.status }}</span>
+                        {% elif bug.status == "In Progress" %}
+                            <span class="badge badge-warning">{{ bug.status }}</span>
+                        {% elif bug.status == "Complete" %}
+                            <span class="badge badge-complete">{{ bug.status }}</span>
+                        {% endif %}
+
+                    </div>
+
+                    <div class="col bug-details-item">
+                        <span id="votes-number">{{ votes }}</span> other user{% if votes == 0 or votes > 1 %}s have{% else %} has{% endif %} this problem
+                    </div>
+
+                    <div class="col bug-details-item">
+                        <form action="#" id="vote-form" method="POST">
+                        
+                            <button class="btn btn-info" onClick="voteOnTicket('{{bug.id}}', '{{ csrf_token }}')">
+                                Me too 
+                                <i class="far fa-arrow-alt-circle-up"></i>
+                            </button>
                         </form>
-
-                    {% else %}
-
-                        <h6 class="card-title">Status
-                        
-                            {% if bug.status == "Pending" %}
-                                <span class="badge badge-primary">{{ bug.status }}</span>
-                            {% elif bug.status == "In Progress" %}
-                                <span class="badge badge-warning">{{ bug.status }}</span>
-                            {% elif bug.status == "Complete" %}
-                                <span class="badge badge-success">{{ bug.status }}</span>
-                            {% endif %}
-                        
-                        </h6>
-
-                    {% endif %}
+                    </div> 
 
                 </div>
 
-                <div class="bug-details-item">
-                    <h6 class="card-title">
-                        <span><span id="votesNumber">{{ votes }}</span> other user{% if votes == 0 or votes > 1 %}s have{% else %} has{% endif %} this problem</span>
-                    </h6>
-                </div>
-
-                {% if bug.image %}
-                <div class="bug-details-item">
-                    <h5 class="card-title">
-                        <span>Reference Image:</span>
-                    </h5>
-                    <img src="{{ bug.image.url }}" class="img-thumbnail img-fluid">
-                </div>
-                {% endif %}
-
-                <form action="#" id="voteForm" method="POST" class="float-right">
-                    
-                    <button class="btn btn-info" onClick="voteOnTicket('{{bug.id}}', '{{ csrf_token }}')">
-                        I have this problem too 
-                        <i class="far fa-arrow-alt-circle-up"></i>
-                    </button>
-                </form>
-                
+            </div>
             </div>
         </div>
         
@@ -147,7 +142,7 @@
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="comment" class="col-form-label">Message:</label>
-                        <textarea class="form-control" id="comment" name="comment"></textarea>
+                        <textarea class="form-control" id="comment" name="comment" required></textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

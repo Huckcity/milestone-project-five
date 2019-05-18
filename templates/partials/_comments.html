@@ -1,43 +1,46 @@
 <div class="card">
-    <h5 class="card-header">Comments
-        {% if 'dashboard' not in request.path %}
-        <button type="button" 
-                class="btn btn-primary btn-sm"
-                data-toggle="modal" 
-                data-target="#exampleModal">
-                Add Comment
-        </button>
+  {% if 'dashboard' not in request.path %}
+  <h5 class="card-header">
+    Comments
+    <button
+      type="button"
+      class="btn btn-primary btn-sm"
+      data-toggle="modal"
+      data-target="#exampleModal"
+    >
+      Add Comment
+    </button>
+  </h5>
+  {% endif %} {% if comments %}
+  
+  {% for comment in comments %}
+
+  <div class="comment-body">
+    <div class="card-body">
+      <small class="text-muted"
+        >On {{ comment.posted_on }},
+        <b>{{ comment.userid.username }}</b> said:</small
+      >
+      <p>
+        {{ comment }}
+      </p>
+      {% if 'dashboard' in request.path %}
+      <small class="float-right font-weight-bold">
+        {% if comment.ticketid %}
+        <a href="{% url 'bug' comment.ticketid.id %}">View in context >></a>
+        {% else %}
+        <a href="{% url 'post' comment.blog_post_id.id %}"
+          >View in context >></a
+        >
         {% endif %}
-    </h5>
+      </small>
+      {% endif %}
+    </div>
+  </div>
 
-    {% if comments %}
+  {% endfor %} {% else %}
 
-        {% for comment in comments %}
-    
-            <div class="comment-body">
-                <div class="card-body">
-                    <small class="text-muted">On {{ comment.posted_on }}, <b>{{ comment.userid.username }}</b> said:</small>
-                    <p>
-                        {{ comment }}
-                    </p>
-                    {% if 'dashboard' in request.path %}
-                    <small class="float-right font-weight-bold">
-                        {% if comment.ticketid %}
-                        <a href="{% url 'bug' comment.ticketid.id %}">View in context >></a>
-                        {% else %}
-                        <a href="{% url 'post' comment.blog_post_id.id %}">View in context >></a>
-                        {% endif %}
-                    </small>
-                    {% endif %}
-                </div>
-            </div>
-        
-        {% endfor %}
+  <div class="comment-body text-center">No comments found</div>
 
-    {% else %}
-
-        <div class="comment-body text-center">No comments found</div>
-    
-    {% endif %}
-    
+  {% endif %}
 </div>

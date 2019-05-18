@@ -3,41 +3,52 @@ setTimeout(function() {
 }, 3000);
 
 function changeTicketStatus(val, id, csrf_token) {
-
   $.ajax({
-    url: "/tickets/updateticketstatus/"+id+"/",
+    url: "/tickets/updateticketstatus/" + id + "/",
     type: "POST",
     data: {
       csrfmiddlewaretoken: csrf_token,
       ticket_status: val
     },
     success: function(result) {
-      // alert('Status Updated');
-      $('#statusCheck')
+      $("#statusCheck")
         .show()
         .html('<i class="fas fa-check"></i>')
         .fadeOut(4000);
-      
     }
   });
 }
 
 function voteOnTicket(id, csrf_token) {
-
-  $("#voteForm").submit(function(e){
+  $("#vote-form").submit(function(e) {
     e.preventDefault();
   });
 
   $.ajax({
-    url: "/tickets/addvote/"+id+"/",
+    url: "/tickets/addvote/" + id + "/",
     type: "POST",
     data: {
-      csrfmiddlewaretoken: csrf_token,
+      csrfmiddlewaretoken: csrf_token
     },
     success: function(result) {
-      // alert('Status Updated');
-      $('#votesNumber').text(result.numVotes);
-      alert(result.msg)
+      $("#votes-number").text(result.numVotes);
+      alert(result.msg);
     }
   });
+}
+
+function openImage(imageUrl) {
+  var modal = document.getElementById("image-modal");
+  var modalImg = document.getElementById("bug-image");
+
+  modal.style.display = "block";
+  modalImg.src = imageUrl;
+
+  setTimeout(function() {
+  // When the user clicks anywhere, close the modal
+    document.addEventListener('click', function() {
+      modal.style.display = "none";
+    }, 500);
+  })
+  
 }

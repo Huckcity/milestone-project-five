@@ -18,6 +18,10 @@ def single_post(request, post_id):
         comment = request.POST['comment']
         post = get_object_or_404(Post, pk=post_id)
 
+        if comment == '':
+            messages.error(request, 'Comment message is required.')
+            return redirect('/blog/post/'+post_id)
+
         comment = Comment(userid=userid, comment=comment, blog_post_id=post)
         comment.save()
 

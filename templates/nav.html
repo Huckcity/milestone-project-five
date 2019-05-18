@@ -1,0 +1,122 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+
+    <a href="{% url 'index' %}" class="navbar-brand">
+      <img src="{% static 'images/logo.png' %}" class="logo" alt="Unicorn Attractor Logo" />
+      <a href="{% url 'index' %}" class="navbar-brand">Unicorn Attractor</a>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+      <!-- IF USER AUTHENTICATED -->
+
+      {% if user.is_authenticated %}
+
+      <ul class="navbar-nav mr-auto">
+
+        <li {% if '/accounts/dashboard' == request.path %} class="nav-item active" {% else %} class="nav-item"
+          {% endif %}>
+          <a class="nav-link" href="{% url 'dashboard' %}">
+            <i class="fas fa-home nav-icon"></i>
+            Dashboard
+          </a>
+        </li>
+        <li {% if '/tickets/bugs' == request.path or '/tickets/bug/' in request.path %} class="nav-item active"
+          {% else %} class="nav-item" {% endif %}>
+          <a class="nav-link" href="{% url 'bugs' %}">
+            <i class="fas fa-bug nav-icon"></i>
+            Bugs
+          </a>
+        </li>
+        <li {% if '/tickets/features' == request.path or '/tickets/feature/' in request.path %}
+          class="nav-item active" {% else %} class="nav-item" {% endif %}>
+          <a class="nav-link" href="{% url 'features' %}">
+            <i class="fas fa-award nav-icon"></i>
+            Features
+          </a>
+        </li>
+
+        <li {% if '/blog/' == request.path or '/blog/' in request.path %}
+          class="nav-item active" {% else %} class="nav-item" {% endif %}>
+          <a class="nav-link" href="{% url 'blog' %}">
+              <i class="fas fa-edit nav-icon"></i>
+            Blog
+          </a>
+        </li>
+
+        <li {% if '/charts/' == request.path or '/charts/' in request.path %}
+          class="nav-item active" {% else %} class="nav-item" {% endif %}>
+          <a class="nav-link" href="{% url 'charts' %}">
+              <i class="fas fa-chart-pie nav-icon"></i>
+            Stats
+          </a>
+        </li>
+
+        
+
+      </ul>
+
+      <ul class="navbar-nav ml-auto">
+        
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'editprofile' %}">
+            <i class="fas fa-cog nav-icon"></i>
+            Edit Profile
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'cart' %}">
+            <i class="fas fa-shopping-cart nav-icon"></i>
+            Cart - &euro;{{ total }}
+          </a>
+        </li>
+
+        <li {% if '/accounts/logout' == request.path %} class="nav-item active" {% else %} class="nav-item"
+          {% endif %}>
+          <a class="nav-link" href="javascript:{document.getElementById('logout').submit()}">
+            Log Out
+            <i class="fas fa-sign-out-alt nav-icon"></i>
+          </a>
+          <form action="{% url 'logout' %}" method="POST" id="logout">
+            {% csrf_token %}
+            <input type="hidden">
+          </form>
+        </li>
+      </ul>
+
+
+      <!-- END OF AUTHENTICATED NAV-->
+
+      <!-- IF USER NOT AUTHENTICATED -->
+
+      {% else %}
+
+      <ul class="navbar-nav ml-auto">
+
+        <li {% if '/' == request.path %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
+          <a class="nav-link" href="{% url 'index' %}">Home</a>
+        </li>
+        <li {% if '/accounts/login' == request.path %} class="nav-item active" {% else %} class="nav-item"
+          {% endif %}>
+          <a class="nav-link" href="{% url 'login' %}">Log In</a>
+        </li>
+        <li {% if '/accounts/register' == request.path %} class="nav-item active" {% else %} class="nav-item"
+          {% endif %}>
+          <a class="nav-link" href="{% url 'register' %}">Register</a>
+        </li>
+
+      </ul>
+
+      {% endif %}
+
+      <!-- END OF NOT AUTHENTICATED NAV-->
+
+    </div>
+  </nav>

@@ -26,7 +26,8 @@
 
                 <span>
                 {{ feature.title }}
-                <small class="text-muted"> posted on {{ feature.created_on }} by {{ feature.userid.username }}</small>
+                <br>
+                <small class="text-muted">posted on {{ feature.created_on }} by {{ feature.userid.username }}</small>
                 </span>
 
                 {% if user == feature.userid or user.is_staff == True %}
@@ -44,27 +45,32 @@
                 {% endif %}
             </h5>
             <div class="card-body">
-                
-                <div class="bug-details-item">
-                    <h5 class="card-title">Details</h5>
-                    <p class="details-body">{{ feature.description }}</p>
+
+                <div class="row">
+                    <div class="col bug-details-item">
+                        {% include 'partials/_progressbar.html' %}
+                    </div>
                 </div>
                 
-                <div class="bug-details-item">
-                    <h6 class="card-title">URL:
-                        <span class="card-text">
-                            {% if feature.url %}
-                                <a href="{{ feature.url }}" target="_blank">{{ feature.url }}</a>
-                            {% else %}
-                                None
-                            {% endif %}
-                        </span>
-                    </h6>
-                </div>
-                
-                <div class="bug-details-item">
-                    <h6 class="card-title">Status
+                <div class="row">
+                    <div class="col-md-12 bug-details-item">
+                        <h5 class="card-title">Details</h5>
+                        <p class="details-body">{{ feature.description }}</p>
+                    </div>
                     
+                    <div class="col bug-details-item">
+                        <h5 class="card-title">URL:</h5>
+                            <span class="card-text">
+                                {% if feature.url %}
+                                    <a href="{{ feature.url }}" target="_blank">{{ feature.url }}</a>
+                                {% else %}
+                                    None
+                                {% endif %}
+                            </span>
+                    </div>
+                    
+                    <div class="col bug-details-item">
+                        <h5 class="card-title">Status</h5>
                         {% if feature.status == "Pending" %}
                             <span class="badge badge-primary">{{ feature.status }}</span>
                         {% elif feature.status == "In Progress" %}
@@ -72,25 +78,19 @@
                         {% elif feature.status == "Complete" %}
                             <span class="badge badge-success">{{ feature.status }}</span>
                         {% endif %}
-                    
-                    </h6>
+                    </div>
+
+                    <div class="col bug-details-item">
+                        <h5 class="card-title">Development Cost</h5>
+                        &euro;{{ feature.price }}
+                    </div>
                 </div>
 
-                <div class="bug-details-item">
-                    <h6 class="card-title">Development Cost
-                    &euro;{{ feature.price }}
-                    </h6>
-                </div>
-
-                <div class="bug-details-item">
-                    {% include 'partials/_progressbar.html' %}
-                </div>
-
-                <form action="{% url 'addtocart' feature.id %}" method="POST" class="float-right">
+                <form action="{% url 'addtocart' feature.id %}" method="POST">
                     {% csrf_token %}
                     <div class="controls form-inline">
                         <span>&euro;</span>
-                        <input class="form-control float-right" type="number" min="1" step="any" name="contribution_amount" value="0.00" />
+                        <input class="form-control float-right" type="number" min="1" step="any" name="contribution_amount" value="0.00" required />
                         <button class="btn btn-info float-right">Contribute</button>
                     </div>
                 </form>
@@ -120,7 +120,7 @@
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="comment" class="col-form-label">Message:</label>
-                        <textarea class="form-control" id="comment" name="comment"></textarea>
+                        <textarea class="form-control" id="comment" name="comment" required></textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

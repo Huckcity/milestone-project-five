@@ -5,17 +5,19 @@ from django.conf import settings
 from django.db.models import Sum
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
-
+from django.contrib.auth.decorators import login_required
 from tickets.models import Contribution
 from tickets.views import Ticket
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
+@login_required
 def view_cart(request):
 
     num_contribs = Contribution.objects.filter(userid=request.user.id).count()
-    discount = Decimal(num_contribs * 1.5) if Decimal(num_contribs * 1.5) <= 30 else Decimal(30)
+    discount = Decimal(
+        num_contribs * 1.5) if Decimal(num_contribs * 1.5) <= 30 else Decimal(30)
 
     context = {
         'key': settings.STRIPE_PUBLISHABLE_KEY,
@@ -26,10 +28,15 @@ def view_cart(request):
     return render(request, "cart/cart.html", context)
 
 
+@login_required
 def addtocart(request, featureid):
     """
     Add an amount to the cart for contributions to check out at a later time
     """
+    if not request.POST['contribution_amount'] or request.POST['contribution_amount'] == '' or int(request.POST['contribution_amount']) < 1:
+        messages.error(
+            request, 'You must submit a valid contribution amount.')
+        return redirect('/tickets/feature/'+featureid)
 
     cart = request.session.get('cart', {})
     if featureid not in cart:
@@ -50,6 +57,7 @@ def addtocart(request, featureid):
     return redirect("cart")
 
 
+@login_required
 def removefromcart(request, featureid):
     """
     Delete a feature contribution from the cart
@@ -66,6 +74,7 @@ def removefromcart(request, featureid):
     return redirect(reverse('cart'))
 
 
+@login_required
 def checkout(request):
 
     context = {
@@ -75,12 +84,15 @@ def checkout(request):
     return render(request, "cart/checkout.html", context)
 
 
+@login_required
 def charge(request):
 
     if request.method == 'POST':
 
-        num_contribs = Contribution.objects.filter(userid=request.user.id).count()
-        discount = Decimal(num_contribs * 1.5) if Decimal(num_contribs * 1.5) <= 30 else Decimal(30)
+        num_contribs = Contribution.objects.filter(
+            userid=request.user.id).count()
+        discount = Decimal(
+            num_contribs * 1.5) if Decimal(num_contribs * 1.5) <= 30 else Decimal(30)
         print('discount = ', discount)
 
         cart = request.session.get('cart', {})
@@ -92,7 +104,8 @@ def charge(request):
             total_charge += Decimal(amount)
 
         print('total charge = ', total_charge)
-        discount_amount = (total_charge/100)*discount if discount > 0 else total_charge
+        discount_amount = (total_charge/100) * \
+            discount if discount > 0 else total_charge
         print('discount_amount = ', discount_amount)
 
         amount_owed_after_discount = total_charge - discount_amount
@@ -122,11 +135,13 @@ def charge(request):
 
                     contribution.save()
 
-                    all_contribs = Contribution.objects.filter(ticket=ticket).annotate(total_paid=Sum('amount'))
+                    all_contribs = Contribution.objects.filter(
+                        ticket=ticket).annotate(total_paid=Sum('amount'))
 
                     all_contribs = all_contribs[0].total_paid
 
-                    ticket_percent_complete = (all_contribs / ticket.price) * 100
+                    ticket_percent_complete = (
+                        all_contribs / ticket.price) * 100
                     ticket.percent_complete = ticket_percent_complete
                     ticket.save()
 
@@ -151,11 +166,17 @@ def charge(request):
         return redirect('dashboard')
 
 
+@login_required
 def updatecart(request, featureid):
     """
-    Delete a feature contribution from the cart
+    Update a a feature contribution amount
     """
     cart = request.session.get('cart', {})
+
+    if not request.POST['contribution_amount'] or request.POST['contribution_amount'] == '' or int(request.POST['contribution_amount']) < 1:
+        messages.error(
+            request, 'You must submit a valid contribution amount.')
+        return redirect(reverse('cart'))
 
     if featureid in cart:
 

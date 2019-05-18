@@ -50,8 +50,6 @@
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
     <h3 class="text-center">Send us a message</h3>
-
-    {% include 'partials/_alerts.html' %}
     
     <form action="{% url 'contact' %}" method="POST">
       {% csrf_token %}

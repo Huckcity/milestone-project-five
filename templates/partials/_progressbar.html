@@ -4,7 +4,7 @@
         {% endif %}">
     <div class="progress-bar progress-bar-striped" 
             role="progressbar" 
-            style="width: {{ feature.percent_complete|stringformat:'d' }}%; height: 25px" 
+            style="width: {{ feature.percent_complete|stringformat:'d' }}%" 
             aria-valuenow="{{ feature.percent_complete|stringformat:'d' }}" 
             aria-valuemin="0" 
             aria-valuemax="{{ feature.price|stringformat:'d' }}">

@@ -21,6 +21,7 @@ from accounts.forms import EditProfile
 from tickets.models import Ticket, Contribution, Vote
 from comments.models import Comment
 
+
 def login(request):
     """
     View for displaying login page and handling login form
@@ -32,6 +33,11 @@ def login(request):
 
         username = request.POST['username']
         password = request.POST['password']
+
+        if username == '' or password == '':
+            messages.error(request, 'You must provide your login credentials')
+
+            return redirect('dashboard')
 
         user = auth.authenticate(username=username, password=password)
 
@@ -51,6 +57,7 @@ def login(request):
 
         return render(request, 'accounts/login.html')
 
+
 def register(request):
     """
     View for registration page and handling registration form
@@ -63,11 +70,17 @@ def register(request):
         password = request.POST['password']
         password2 = request.POST['password2']
 
+        if username == '' or email == '' or password == '' or password2 == '':
+            messages.error(request, 'All fields are required')
+
+            return redirect('register')
+
         if password == password2:
 
             if User.objects.filter(email=email).exists():
 
-                messages.error(request, 'That email address is already registered')
+                messages.error(
+                    request, 'That email address is already registered')
                 return redirect('register')
 
             elif User.objects.filter(username=username).exists():
@@ -77,9 +90,11 @@ def register(request):
 
             else:
 
-                user = User.objects.create_user(username=username, email=email, password=password)
+                user = User.objects.create_user(
+                    username=username, email=email, password=password)
                 user.save()
-                messages.success(request, 'You have successfully registered, you may now log in.')
+                messages.success(
+                    request, 'You have successfully registered, you may now log in.')
                 return redirect('login')
 
         else:
@@ -90,6 +105,7 @@ def register(request):
     else:
 
         return render(request, 'accounts/register.html')
+
 
 @login_required
 def logout(request):
@@ -104,6 +120,7 @@ def logout(request):
 
     return redirect('index')
 
+
 @login_required
 def dashboard(request):
     """
@@ -111,14 +128,15 @@ def dashboard(request):
     """
 
     users_bugs = Ticket.objects.all().filter(type='Bug', userid=request.user)
-    users_features = Ticket.objects.all().filter(type='Feature', userid=request.user)
+    users_features = Ticket.objects.all().filter(
+        type='Feature', userid=request.user)
     users_comments = Comment.objects.all().filter(userid=request.user)
 
     for single_bug in users_bugs:
 
-        single_bug.num_comments = Comment.objects.all().filter(ticketid=single_bug.pk).count()
+        single_bug.num_comments = Comment.objects.all().filter(
+            ticketid=single_bug.pk).count()
         single_bug.num_votes = Vote.objects.all().filter(ticket=single_bug.pk).count()
-
 
     for single_feature in users_features:
 
@@ -132,12 +150,13 @@ def dashboard(request):
 
     context = {
         'bugs': users_bugs,
-        'features' : users_features,
-        'comments' : users_comments,
-        'new_comments' : users_comments,
+        'features': users_features,
+        'comments': users_comments,
+        'new_comments': users_comments,
     }
 
     return render(request, 'accounts/dashboard.html', context=context)
+
 
 @login_required
 def editprofile(request):
@@ -151,11 +170,15 @@ def editprofile(request):
             form.save()
             messages.success(request, 'Your profile has been updated.')
             return redirect('editprofile')
-    else:
-        form = EditProfile(instance=request.user)
-        args['form'] = form
 
-        return render(request, 'accounts/editprofile.html', args)
+        messages.error(request, 'You must complete required fields')
+        return redirect('editprofile')
+
+    form = EditProfile(instance=request.user)
+    args['form'] = form
+
+    return render(request, 'accounts/editprofile.html', args)
+
 
 @login_required
 def changepassword(request):
@@ -169,7 +192,8 @@ def changepassword(request):
             form.save()
             update_session_auth_hash(request, form.user)
 
-            messages.success(request, 'Your password has been changed successfully.')
+            messages.success(
+                request, 'Your password has been changed successfully.')
             return redirect('dashboard')
 
         messages.error(request, 'There was an error, please try again.')

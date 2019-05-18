@@ -1,19 +1,18 @@
 #header {
-    height: 65px;
-    background: #7fb800;
-    color: #fff;
+  height: 65px;
+  background: #18121e;
+  color: #fff;
 }
 
 #branding h1 {
-    color: #fff;
+  color: #fff;
 }
 
 div.breadcrumbs {
-    background: #95c039;
-    color: #fff;
+  background: #233237;
+  color: #fff;
 }
 
 .logo {
   width: 60px;
 }
-
