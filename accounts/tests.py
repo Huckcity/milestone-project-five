@@ -22,7 +22,7 @@ class UserTest(TestCase):
 
     def test_login_form_with_bad_data(self):
         response = self.client.post('/accounts/login/', self.bad_credentials, follow=True)
-        self.assertTrue(response.context['user'].is_authenticated)
+        self.assertFalse(response.context['user'].is_authenticated)
 
     def test_registration_form_with_data(self):
         form = UserCreationForm({
