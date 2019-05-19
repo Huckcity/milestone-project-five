@@ -12,4 +12,7 @@ urlpatterns = [
     url(r'^get_comment_data',
         views.get_comment_data,
         name='get_comment_data'),
+    url(r'^get_tickets_by_status',
+        views.get_tickets_by_status,
+        name="get_tickets_by_status"),
 ]

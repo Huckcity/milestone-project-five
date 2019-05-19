@@ -58,7 +58,7 @@ def average_feature_progress(request):
                             if contrib.amount < feature.price else 100
                 running_percent += contrib_percent
 
-    average_contrib_percent = running_percent / len(features)
+    average_contrib_percent = running_percent / len(features) if len(features) > 1 else running_percent
 
     return JsonResponse(average_contrib_percent, safe=False)
     
@@ -69,5 +69,24 @@ def get_comment_data(request):
         .values("day") \
         .annotate(count_items=Count('id')) \
         .order_by('day')
+
+    return JsonResponse(list(data), safe=False)
+
+def get_tickets_by_status(request):
+
+    pending = 0
+    in_progress = 0
+    complete = 0
+
+    tickets = Ticket.objects.all()
+    for ticket in tickets:
+        if ticket.status == "Pending":
+            pending += 1
+        if ticket.status == "In Progress":
+            in_progress += 1
+        if ticket.status == "Complete":
+            complete += 1
+
+    data = [pending, in_progress, complete]
 
     return JsonResponse(list(data), safe=False)

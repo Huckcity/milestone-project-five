@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-DEBUG = False
+DEBUG = True
 
 # Get local environment vars from env.py if possible, otherwise assume we're in deployment and using Heroku vars
 try:

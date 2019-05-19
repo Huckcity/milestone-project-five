@@ -86,14 +86,17 @@ def checkout(request):
 
 @login_required
 def charge(request):
-
+    """
+    Handle payment processing when user submits card details
+    """
     if request.method == 'POST':
 
+        # Get applicable discount
         num_contribs = Contribution.objects.filter(
             userid=request.user.id).count()
+        # Set with ternary to cap at 30%
         discount = Decimal(
             num_contribs * 1.5) if Decimal(num_contribs * 1.5) <= 30 else Decimal(30)
-        print('discount = ', discount)
 
         cart = request.session.get('cart', {})
         total_charge = 0
@@ -103,13 +106,11 @@ def charge(request):
             amount = cart[item]['contrib_amount']
             total_charge += Decimal(amount)
 
-        print('total charge = ', total_charge)
+        # Apply discount if any
         discount_amount = (total_charge/100) * \
             discount if discount > 0 else total_charge
-        print('discount_amount = ', discount_amount)
 
         amount_owed_after_discount = total_charge - discount_amount
-        print('amount_owed_after_discount = ', amount_owed_after_discount)
 
         try:
 
@@ -140,6 +141,7 @@ def charge(request):
 
                     all_contribs = all_contribs[0].total_paid
 
+                    # Update percent complete based on amount paid or set to 100 if total met
                     ticket_percent_complete = (
                         all_contribs / ticket.price) * 100
                     ticket.percent_complete = ticket_percent_complete

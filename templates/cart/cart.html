@@ -20,11 +20,9 @@
 
   {% include 'partials/_alerts.html' %}
 
-  <div class="row">
-
     {% if cart_items %} {% for item in cart_items %}
 
-    <div class="card w-100 cart-card">
+    <div class="card cart-card">
       <div class="card-header">
         <h2>#{{ item.id }} - {{ item.title }}</h2>
       </div>
@@ -72,8 +70,6 @@
 
     {% endfor %}
 
-  </div>
-  <div class="row">
 
     <div class="card w-100 cart-card">
       <div class="card-header">
@@ -84,8 +80,7 @@
       </div>
     </div>
 
-  </div>
-  <div class="row">
+  
 
     <div class="ml-auto cart-card">
       <form action="{% url 'charge' %}" method="POST">
@@ -100,13 +95,12 @@
           </script>
       </form>
     </div>
-  </div>
+ 
   
     {% else %}
 
-  <div class="row">
 
-    <div class="card w-100 cart-card">
+    <div class="card cart-card">
       <div class="card-header">
         Nothing here...
       </div>
@@ -114,12 +108,10 @@
             <p class="card-text">You haven't added any contributions yet. Please head over to the <a href="{% url 'features' %}">Features</a> page and consider contributing.</p>
       </div>
     </div>
-  </div>
 
     {% endif %}
 
-  <div class="row">
-    <div class="card w-100 cart-card">
+    <div class="card cart-card">
       <div class="card-header">
         Loyalty Card Details
       </div>
@@ -128,8 +120,7 @@
               You have made <strong>{{ num_contribs }}</strong> previous contribution(s), entitling you to a <strong>{{ discount }}% discount</strong>, which will automatically be applied at checkout.</p>
       </div>
     </div>
-  </div>
-  </div>
+
 </div>
 
 {% endblock %}
