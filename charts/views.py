@@ -49,16 +49,10 @@ def average_feature_progress(request):
 
     for feature in features:
 
-        contribs = Contribution.objects.filter(ticket=feature)
+        running_percent += feature.percent_complete
 
-        if contribs:
-            for contrib in contribs:
-
-                contrib_percent = (contrib.amount / feature.price) * 100 \
-                            if contrib.amount < feature.price else 100
-                running_percent += contrib_percent
-
-    average_contrib_percent = running_percent / len(features) if len(features) > 1 else running_percent
+    average_contrib_percent = running_percent / len(features) \
+                              if len(features) > 1 else running_percent
 
     return JsonResponse(average_contrib_percent, safe=False)
     
