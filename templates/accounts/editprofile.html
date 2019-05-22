@@ -8,20 +8,29 @@
 
 <div class="container">
 
-    <h1>Edit Profile</h1>
+    <div class="card">
 
-    {% include 'partials/_alerts.html' %}
+        <div class="card-header">
+            <h1>Edit Profile</h1>
+        </div>
 
-    <form method="POST" class="post-form">
-        {% csrf_token %}
-    
-        {{ form|crispy }}
-    
-        <a href="{% url 'dashboard' %}" class="btn btn-warning float-right" style="margin-left: 10px">
-                <i class="fas fa-times"></i> Cancel</a>
-        <button type="submit" class="btn btn-info float-right">
-                <i class="fas fa-check"></i> Save</button>
-    </form>
+        <div class="card-body">
+
+            {% include 'partials/_alerts.html' %}
+
+            <form method="POST" class="post-form">
+                {% csrf_token %}
+            
+                {{ form|crispy }}
+            
+                <a href="{% url 'dashboard' %}" class="btn btn-warning float-right" style="margin-left: 10px">
+                        <i class="fas fa-times"></i> Cancel</a>
+                <button type="submit" class="btn btn-info float-right">
+                        <i class="fas fa-check"></i> Save</button>
+            </form>
+        </div>
+        
+    </div>
 
 </div>
 

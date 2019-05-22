@@ -2,8 +2,6 @@
 
     <div class="list-group">
 
-        {% if bugs %}
-
         {% for bug in bugs|dictsortreversed:"num_votes" %}
 
         <a href="{% url 'bug' bug.id %}"
@@ -19,15 +17,14 @@
             </div>
         </a>
 
-        {% endfor %}
-
-        {% else %}
+        {% empty %}
 
         <li class="list-group-item d-flex justify-content-between align-items-center">
             No bugs found
         </li>
 
-        {% endif %}
+        {% endfor %}
+
 
     </div>
 

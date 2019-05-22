@@ -108,7 +108,7 @@ def charge(request):
 
         # Apply discount if any
         discount_amount = (total_charge/100) * \
-            discount if discount > 0 else total_charge
+            discount if discount > 0 else 0
 
         amount_owed_after_discount = total_charge - discount_amount
 

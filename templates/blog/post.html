@@ -6,47 +6,58 @@
 
 <div class="container">
 
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active"><a href="{% url 'blog' %}">Blog</a></li>
+            <li class="breadcrumb-item">{{ post.title }}</li>
+        </ol>
+    </nav>
+
     {% include 'partials/_alerts.html' %}
 
-    <div class="container jumbotron">
-        <h1 class="display-4">{{ post.title }}</h1>
-        <p class="lead">published: {{ post.published_on }} by {{ post.author }}</p>
-        <hr class="my-4">
-        <p>{{ post.body|linebreaksbr }}</p>
-        <p class="lead">
-            
+    <div class="card cart-card">
+        <div class="card-header">
+            <h1>{{ post.title }}</h1>
+            <p class="lead">published: {{ post.published_on }} by {{ post.author }}</p>
+        </div>
+        
+        <div class="card-body">
+            <p>{{ post.body|linebreaksbr }}</p>
+        </div>
+    </div>
+
+    <div class="card">
+
+        <div class="card-header d-flex">
+            <h2>Comments</h1>
             <button type="button" 
-                class="btn btn-primary btn-lg float-right"
+                class="btn btn-primary ml-auto"
                 data-toggle="modal" 
                 data-target="#exampleModal">
                 Add Comment
             </button>
-        </p>
-    </div>
-
-    <div class="container jumbotron">
-        <h1 class="display-4">Comments</h1>
+        </div>
+        
 
         {% if comments %}
 
-            <div class="comments-span">
-
-                {% for comment in comments %}
-                    
-                    <div>
-                        <hr class="my-4">
+            {% for comment in comments %}
+                
+                <div class="comment-body">
+                        <div class="card-body">
                         <p>{{ comment.comment }}</p>
                         <small class="ml-auto"> - {{ comment.posted_on }} by {{ comment.userid }}</small>
                     </div>
+                </div>
 
-                {% endfor %}
-
-            </div>
+            {% endfor %}
         
         {% else %}
 
-            <hr class="my-4">
-            <p>No comments yet.</p>
+            <div class="card-body">
+                <p>No comments yet.</p>
+            </div>
         
         {% endif %}
 

@@ -16,14 +16,14 @@
         </ol>
     </nav>
     
-    <h1 class="display-4"></h1>
+    <h1></h1>
 
     {% include 'partials/_alerts.html' %}
     
     {% if bug %}
     
         <div class="card">
-            <h5 class="card-header d-flex">
+            <h4 class="card-header d-flex">
 
                 <span>
                     {{ bug.title }}
@@ -45,7 +45,7 @@
                 </span>            
                 {% endif %}
             
-            </h5>
+            </h4>
             
             <div class="card-body">
                 

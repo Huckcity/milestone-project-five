@@ -2,8 +2,6 @@
     
     <div class="list-group">
     
-    {% if features %}
-    
         {% for feature in features %}
 
 
@@ -13,16 +11,15 @@
                 
                 {% include 'partials/_progressbar.html' %}
             </a>
+
+            {% empty %}
+    
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                No features found
+            </li>
         
         {% endfor %}
         
-    {% else %}
-    
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-        No features found
-    </li>
-    
-    {% endif %}
     
     </div>
 </div>

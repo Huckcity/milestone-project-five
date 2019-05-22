@@ -1,17 +1,17 @@
-<div class="card">
+<div class="main-container card">
   {% if 'dashboard' not in request.path %}
-  <h5 class="card-header">
+  <h4 class="card-header d-flex">
     Comments
     <button
       type="button"
-      class="btn btn-primary btn-sm"
+      class="btn btn-primary btn-sm ml-auto"
       data-toggle="modal"
       data-target="#exampleModal"
     >
       Add Comment
     </button>
-  </h5>
-  {% endif %} {% if comments %}
+  </h4>
+  {% endif %}
   
   {% for comment in comments %}
 
@@ -38,9 +38,11 @@
     </div>
   </div>
 
-  {% endfor %} {% else %}
+  {% empty %}
+  <div class="list-group">
+    <p class="list-group-item ">No comments found</p>
+  </div>
 
-  <div class="comment-body text-center">No comments found</div>
-
-  {% endif %}
+  {% endfor %} 
+  
 </div>
