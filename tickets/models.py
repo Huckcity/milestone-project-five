@@ -32,7 +32,7 @@ class Ticket(models.Model):
                                 blank=True,
                                 null=True,
                                 default=50.00)
-    type = models.CharField(max_length=20, choices=TICKET_TYPE, blank=False)
+    ticket_type = models.CharField(max_length=20, choices=TICKET_TYPE, blank=False)
     status = models.CharField(max_length=20, choices=TICKET_STATUS, default='Pending')
     created_on = models.DateTimeField(default=datetime.now)
     percent_complete = models.IntegerField(default=0)

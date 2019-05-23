@@ -82,7 +82,7 @@
 
   
 
-    <div class="ml-auto cart-card">
+    <div class="cart-card">
       <form action="{% url 'charge' %}" method="POST">
           {% csrf_token %}
           <input type="hidden" name="stripe_api_key" value="{{ key }}" />
@@ -91,7 +91,8 @@
               data-description="Unicorn Attractor Contribution"
               data-amount="{{total_in_cents}}"
               data-locale="auto"
-              data-currency="eur">
+              data-currency="eur"
+              data-label="Checkout">
           </script>
       </form>
     </div>

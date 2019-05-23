@@ -15,12 +15,12 @@ class UserTest(TestCase):
         self.bug_ticket = Ticket.objects.create(userid=self.user,
                                                 title='test bug title',
                                                 description='test feature description',
-                                                type='Bug')
+                                                ticket_type='Bug')
 
         self.feature_ticket = Ticket.objects.create(userid=self.user,
                                                     title='test feature title',
                                                     description='test feature description',
-                                                    type='Feature')
+                                                    ticket_type='Feature')
 
     def test_create_bug_report(self):
 
@@ -28,7 +28,7 @@ class UserTest(TestCase):
         new_ticket = Ticket.objects.create(userid=user,
                                            title='test bug title',
                                            description='test bug description',
-                                           type='Bug')
+                                           ticket_type='Bug')
 
         self.assertEqual(new_ticket.title, 'test bug title')
 
@@ -38,7 +38,7 @@ class UserTest(TestCase):
         new_ticket = Ticket.objects.create(userid=user,
                                            title='test feature title',
                                            description='test feature description',
-                                           type='Feature')
+                                           ticket_type='Feature')
 
         self.assertEqual(new_ticket.title, 'test feature title')
 

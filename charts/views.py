@@ -25,8 +25,8 @@ def get_data(request):
 
 def type_data_url(request):
 
-    num_bugs = Ticket.objects.filter(type="Bug").count()
-    num_features = Ticket.objects.filter(type="Feature").count()
+    num_bugs = Ticket.objects.filter(ticket_type="Bug").count()
+    num_features = Ticket.objects.filter(ticket_type="Feature").count()
 
     data = [
         {
@@ -45,7 +45,7 @@ def average_feature_progress(request):
 
     running_percent = 0
 
-    features = Ticket.objects.filter(type="Feature")
+    features = Ticket.objects.filter(ticket_type="Feature")
 
     for feature in features:
 

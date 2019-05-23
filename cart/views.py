@@ -175,9 +175,12 @@ def updatecart(request, featureid):
     """
     cart = request.session.get('cart', {})
 
-    if not request.POST['contribution_amount'] or request.POST['contribution_amount'] == '' or int(request.POST['contribution_amount']) < 1:
-        messages.error(
-            request, 'You must submit a valid contribution amount.')
+    if not request.POST['contribution_amount'] \
+        or request.POST['contribution_amount'] == '' \
+        or int(request.POST['contribution_amount']) < 1 \
+        or float(request.POST['contribution_amount']) > 999.99:
+
+        messages.error(request, 'You must submit a valid contribution amount not exceeding €999.99')
         return redirect(reverse('cart'))
 
     if featureid in cart:

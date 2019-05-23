@@ -23,7 +23,7 @@ def bugs(request):
     """
     View for bug listsing page
     """
-    bug_set = Ticket.objects.filter(type='Bug').annotate(
+    bug_set = Ticket.objects.filter(ticket_type='Bug').annotate(
         num_votes=Count('vote')).order_by('-num_votes')
 
     for single_bug in bug_set:
@@ -51,7 +51,7 @@ def features(request):
     View for feature listsing page
     """
 
-    all_features = Ticket.objects.filter(type='Feature').order_by('-percent_complete') \
+    all_features = Ticket.objects.filter(ticket_type='Feature').order_by('-percent_complete') \
         .annotate(total_contrib_amount=Sum('contribution__amount'))
 
     context = {
@@ -150,17 +150,15 @@ def addbug(request):
 
             ticket = form.save(commit=False)
             ticket.userid = request.user
-            ticket.type = "Bug"
+            ticket.ticket_type = "Bug"
             ticket.save()
 
             messages.success(request, 'Your bug has been logged successfully.')
             return redirect('bug', bugid=ticket.pk)
 
-        messages.error(request, 'You must complete all required fields.')
-        return redirect('addbug')
+        return render(request, 'tickets/addbug.html', {'form': form})        
 
     form = AddBug()
-
     return render(request, 'tickets/addbug.html', {'form': form})
 
 
@@ -176,20 +174,16 @@ def addfeature(request):
 
             ticket = form.save(commit=False)
             ticket.userid = request.user
-            ticket.type = "Feature"
+            ticket.ticket_type = "Feature"
             ticket.save()
 
             messages.success(
                 request, 'Your feature request has been logged successfully.')
             return redirect('feature', featureid=ticket.pk)
 
-        messages.error(request, 'You must complete all required fields.')
-        return redirect('addfeature')
+        return render(request, 'tickets/addfeature.html', {'form': form})
 
-    else:
-
-        form = AddFeature()
-
+    form = AddFeature()
     return render(request, 'tickets/addfeature.html', {'form': form})
 
 

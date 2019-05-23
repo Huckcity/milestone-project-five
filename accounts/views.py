@@ -127,9 +127,9 @@ def dashboard(request):
     View for dashboard display
     """
 
-    users_bugs = Ticket.objects.all().filter(type='Bug', userid=request.user)
+    users_bugs = Ticket.objects.all().filter(ticket_type='Bug', userid=request.user)
     users_features = Ticket.objects.all().filter(
-        type='Feature', userid=request.user)
+        ticket_type='Feature', userid=request.user)
     users_comments = Comment.objects.all().filter(userid=request.user)
 
     for single_bug in users_bugs:

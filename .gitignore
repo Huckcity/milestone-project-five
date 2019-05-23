@@ -12,6 +12,7 @@ db.sqlite3
 media
 staticfiles
 db.json
+dbsmall.json
 
 
 ### VSCODE

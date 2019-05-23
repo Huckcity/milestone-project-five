@@ -9,9 +9,9 @@ class TicketAdmin(admin.ModelAdmin):
     """
     Register tickets within admin panel
     """
-    list_display = ('id', 'title', 'userid', 'created_on', 'type', 'status')
+    list_display = ('id', 'title', 'userid', 'created_on', 'ticket_type', 'status')
     list_display_links = ('id', 'title')
-    list_filter = ('status', 'type')
+    list_filter = ('status', 'ticket_type')
     list_per_page = 20
 
 class ContribAdmin(admin.ModelAdmin):
