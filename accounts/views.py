@@ -63,6 +63,9 @@ def register(request):
     View for registration page and handling registration form
     """
 
+    if request.user.is_authenticated:
+        return redirect('dashboard')
+
     if request.method == "POST":
 
         username = request.POST['name']

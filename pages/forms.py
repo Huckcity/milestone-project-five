@@ -3,7 +3,7 @@ from django import forms
 class ContactForm(forms.Form):
 
     email = forms.EmailField(
-        widget=forms.TextInput(attrs={'class' : 'form-control'}), required=True)
+        widget=forms.TextInput(attrs={'class' : 'form-control', 'type': 'email'}), required=True)
     subject = forms.CharField(
         widget=forms.TextInput(attrs={'class' : 'form-control'}), required=True)
     message = forms.CharField(
